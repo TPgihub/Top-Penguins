@@ -1,3 +1,5 @@
+<!-- REEMPLAZA TODO EL ARCHIVO POR ESTE -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body class="bg-light">
-
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
@@ -19,23 +20,15 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="d-flex me-auto" role="search">
           <input class="form-control me-2" type="search" placeholder="Buscar" />
           <button class="btn btn-outline-light" type="submit">Buscar</button>
         </form>
-
         <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-3">
-          <li class="nav-item text-center">
-            <a class="nav-link active" href="https://www.instagram.com/top_penguins"><i class="fab fa-instagram fa-xl"></i></a>
-          </li>
-          <li class="nav-item text-center">
-            <a class="nav-link active" href="https://www.facebook.com/profile.php?id=61566805325900"><i class="fab fa-facebook fa-xl"></i></a>
-          </li>
-          <li class="nav-item text-center">
-            <a class="nav-link active" href="#"><i class="fab fa-whatsapp fa-xl"></i></a>
-          </li>
+          <li class="nav-item text-center"><a class="nav-link active" href="https://www.instagram.com/top_penguins"><i class="fab fa-instagram fa-xl"></i></a></li>
+          <li class="nav-item text-center"><a class="nav-link active" href="https://www.facebook.com/profile.php?id=61566805325900"><i class="fab fa-facebook fa-xl"></i></a></li>
+          <li class="nav-item text-center"><a class="nav-link active" href="#"><i class="fab fa-whatsapp fa-xl"></i></a></li>
         </ul>
       </div>
     </div>
@@ -102,7 +95,7 @@
 
         productoSeleccionado = producto;
 
-        document.getElementById('producto-info').innerHTML = 
+        document.getElementById('producto-info').innerHTML = `
           <div class="card mb-4">
             <div class="row g-0">
               <div class="col-md-4">
@@ -117,8 +110,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        ;
+          </div>`;
       } catch (error) {
         document.getElementById('producto-info').innerHTML = '<p class="text-danger">Error al cargar el producto.</p>';
         console.error(error);
@@ -139,11 +131,11 @@
           telefono: form.telefono.value,
           direccion: form.direccion.value,
           metodo: form.metodo.value,
-          comprobanteURL: '' // Puedes integrar subida a Drive en el futuro
+          comprobanteURL: '' // pendiente de integración con Drive
         };
 
         try {
-          const resp = await fetch('https://script.google.com/macros/s/AKfycbyxtJIYYks7nByE0VsOFVH4-LpApXj-haonriqQp5Ymg4iZOGzuvlPuQXiyDym9qi7m/exec', {
+          const resp = await fetch('https://script.google.com/macros/s/AKfycbxiWIXfHF1WpzoiyG1s8EKJyiwG7dIVAlzUx47TF3MTWuLrt0vqXPyYUXGTtxpogNHp/exec', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
