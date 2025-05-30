@@ -1,0 +1,4 @@
+﻿id;Nombre;descripcion corta;descripcion larga;especificaciones;Precio;imagen;disponible
+1;Kit Luces LED;Incluye cámara y cintas;Ideal para ambientar tu sala con iluminación LED;3 tiras LED, cámara, control remoto;1650;Luz led.jpg;sí
+2;Fossil Gen 6;Smartwatch Fossil Gen 6;Reloj inteligente moderno con pantalla AMOLED;"GPS, SpO2, 1.28"", 8GB ROM, Android/iOS";3750;gen6.jpg;sí
+3;Fossil Gen 5;Smartwatch Fossil Gen 5;Reloj potente para el día a día;NFC, micrófono, resistencia IP68;3200;gen5.jpg;sí
