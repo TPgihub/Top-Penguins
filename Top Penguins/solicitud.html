@@ -39,7 +39,7 @@
     <div id="producto-info" class="mb-4"></div>
 
     <h4>Formulario de solicitud</h4>
-    <form id="formulario-solicitud" class="bg-white p-4 rounded shadow" enctype="multipart/form-data">
+    <form id="formulario-solicitud" class="bg-white p-4 rounded shadow">
       <div class="mb-3">
         <label>Nombre completo</label>
         <input type="text" class="form-control" name="nombre" required />
@@ -63,10 +63,6 @@
           <option value="whatsapp">WhatsApp</option>
           <option value="correo">Correo electrónico</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label>Subir foto del comprobante de pago</label>
-        <input type="file" class="form-control" accept="image/*" name="comprobante" required />
       </div>
       <button type="submit" class="btn btn-success">Enviar solicitud</button>
     </form>
@@ -124,23 +120,21 @@
         e.preventDefault();
 
         const form = e.target;
-        const datos = {
-          producto: productoSeleccionado?.Nombre || 'Producto no identificado',
-          nombre: form.nombre.value,
-          correo: form.correo.value,
-          telefono: form.telefono.value,
-          direccion: form.direccion.value,
-          metodo: form.metodo.value,
-          comprobanteURL: '' // pendiente de integración con Drive
-        };
+        const datos = new URLSearchParams();
+        datos.append('producto', productoSeleccionado?.Nombre || 'Producto no identificado');
+        datos.append('nombre', form.nombre.value);
+        datos.append('correo', form.correo.value);
+        datos.append('telefono', form.telefono.value);
+        datos.append('direccion', form.direccion.value);
+        datos.append('metodo', form.metodo.value);
 
         try {
           const resp = await fetch('https://script.google.com/macros/s/AKfycbxiWIXfHF1WpzoiyG1s8EKJyiwG7dIVAlzUx47TF3MTWuLrt0vqXPyYUXGTtxpogNHp/exec', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: JSON.stringify(datos)
+            body: datos.toString()
           });
 
           if (resp.ok) {
@@ -151,7 +145,7 @@
             alert('❌ Error al enviar la solicitud. Intenta más tarde.');
           }
         } catch (error) {
-          alert('❌ No se pudo conectar con el servidor. Verifica tu red.');
+          alert('❌ No se pudo conectar con el servidor.');
           console.error(error);
         }
       });
