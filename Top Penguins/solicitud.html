@@ -80,7 +80,7 @@
       const id = params.get('id');
 
       try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbzo0rK2Eow5vt6k8ZnpexWrvpgwC7RZQQDD95J9-Q-Mk8_LTKVtkcPwMUd7soNGJ3km/exec');
+        const resp = await fetch('https://script.google.com/macros/s/AKfycbzd5jnLNuSYGRPM4hK4wmctrxqITWit32S3g-vpwwflWBOVno_3OnFkj1rNx2LAsQ5i/exec');
         const productos = await resp.json();
         const producto = productos.find(p => p.id == id);
 
