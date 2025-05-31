@@ -117,38 +117,34 @@
       cargarProducto();
 
       document.getElementById('formulario-solicitud').addEventListener('submit', async function (e) {
-        e.preventDefault();
+  e.preventDefault();
 
-        const form = e.target;
-        const datos = new URLSearchParams();
-        datos.append('producto', productoSeleccionado?.Nombre || 'Producto no identificado');
-        datos.append('nombre', form.nombre.value);
-        datos.append('correo', form.correo.value);
-        datos.append('telefono', form.telefono.value);
-        datos.append('direccion', form.direccion.value);
-        datos.append('metodo', form.metodo.value);
+  const form = e.target;
+  const datos = new URLSearchParams();
+  datos.append('producto', productoSeleccionado?.Nombre || 'Producto no identificado');
+  datos.append('nombre', form.nombre.value);
+  datos.append('correo', form.correo.value);
+  datos.append('telefono', form.telefono.value);
+  datos.append('direccion', form.direccion.value);
+  datos.append('metodo', form.metodo.value);
 
-        try {
-          const resp = await fetch('https://script.google.com/macros/s/AKfycbwh9CVNnF2kwRHqN1l9fXqZ-sRXF3oY2kVxh9vCJdc84hJFi7xBX1CtQhoRxjo3t1ng/exec', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: datos.toString()
-          });
+  try {
+    const resp = await fetch('https://script.google.com/macros/s/AKfycbw4ni4RD7RjBdEVwFpeJTIQ6HacJ5pdts7itiPz6ncHu5IoHM0tDddx5I5wQZ5NWZQ8/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: datos.toString()
+    });
 
-          if (resp.ok) {
-            form.reset();
-            document.getElementById('confirmacion').classList.remove('d-none');
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-          } else {
-            alert('❌ Error al enviar la solicitud. Intenta más tarde.');
-          }
-        } catch (error) {
-          alert('❌ No se pudo conectar con el servidor.');
-          console.error(error);
-        }
-      });
+    const resultado = await resp.json();
+    alert(resultado.mensaje);
+  } catch (error) {
+    alert('❌ Error al enviar la solicitud.');
+    console.error(error);
+  }
+});
+
     });
   </script>
 
