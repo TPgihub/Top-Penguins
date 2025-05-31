@@ -129,7 +129,8 @@
   datos.append('metodo', form.metodo.value);
 
   try {
-    const resp = await fetch('https://script.google.com/macros/s/AKfycbw4ni4RD7RjBdEVwFpeJTIQ6HacJ5pdts7itiPz6ncHu5IoHM0tDddx5I5wQZ5NWZQ8/exec', {
+   const resp = await fetch('https://backend-solicitud.onrender.com/api/solicitud', {
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
