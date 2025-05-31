@@ -2,94 +2,97 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detalle del producto</title>
-    <style>
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .loading-spinner {
-            text-align: center;
-            font-size: 1.5rem;
-            padding: 40px 0;
-            color: #0d6efd;
-        }
-    </style>
-    <link rel="stylesheet" href="css/estilo.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalle del producto</title>
+  <link rel="stylesheet" href="css/estilo.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .spinner-container {
+      text-align: center;
+      padding: 3rem 0;
+    }
+  </style>
 </head>
 
 <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a href="index.html">
-                <img style="border-radius: 10%; margin-right: 10px;" src="img/Top-removebg-preview.png" width="190px" alt="Top Penguins Logo" />
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a href="index.html">
+        <img style="border-radius: 10%; margin-right: 10px;" src="img/Top-removebg-preview.png" width="190px" alt="Top Penguins Logo" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="d-flex me-auto" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" />
-                    <button class="btn btn-outline-light" type="submit">Buscar</button>
-                </form>
-
-                <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-3">
-                    <li class="nav-item text-center">
-                        <a class="nav-link active" href="https://www.instagram.com/top_penguins?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="fab fa-instagram fa-xl"></i></a>
-                    </li>
-                    <li class="nav-item text-center">
-                        <a class="nav-link active" href="https://www.facebook.com/profile.php?id=61566805325900"><i class="fab fa-facebook fa-xl"></i></a>
-                    </li>
-                    <li class="nav-item text-center">
-                        <a class="nav-link active" href="#"><i class="fab fa-whatsapp fa-xl"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container py-5">
-        <div id="detalle-producto" class="row">
-            <div class="loading-spinner">🔄 Cargando producto...</div>
-        </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="d-flex me-auto" role="search">
+          <input class="form-control me-2" type="search" placeholder="Buscar" />
+          <button class="btn btn-outline-light" type="submit">Buscar</button>
+        </form>
+        <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-3">
+          <li class="nav-item text-center">
+            <a class="nav-link active" href="https://www.instagram.com/top_penguins"><i class="fab fa-instagram fa-xl"></i></a>
+          </li>
+          <li class="nav-item text-center">
+            <a class="nav-link active" href="https://www.facebook.com/profile.php?id=61566805325900"><i class="fab fa-facebook fa-xl"></i></a>
+          </li>
+          <li class="nav-item text-center">
+            <a class="nav-link active" href="#"><i class="fab fa-whatsapp fa-xl"></i></a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
+  <!-- Spinner mientras carga -->
+  <div id="spinner" class="spinner-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando producto...</span>
+    </div>
+    <p class="mt-2">Cargando producto...</p>
+  </div>
 
-    <script>
-        async function cargarDetalleProducto() {
-            const params = new URLSearchParams(window.location.search);
-            const idBuscado = params.get('id');
-            const contenedor = document.getElementById('detalle-producto');
+  <!-- Contenedor del detalle -->
+  <div class="container py-5">
+    <div id="detalle-producto" class="row"></div>
+  </div>
 
-            try {
-                const resp = await fetch('https://script.google.com/macros/s/AKfycbzo0rK2Eow5vt6k8ZnpexWrvpgwC7RZQQDD95J9-Q-Mk8_LTKVtkcPwMUd7soNGJ3km/exec');
-                const productos = await resp.json();
+  <script>
+    async function cargarDetalleProducto() {
+      const params = new URLSearchParams(window.location.search);
+      const idBuscado = params.get('id');
+      const contenedor = document.getElementById('detalle-producto');
+      const spinner = document.getElementById('spinner');
 
-                const producto = productos.find(p => p.id == idBuscado);
+      try {
+        const resp = await fetch('https://script.google.com/macros/s/AKfycbzo0rK2Eow5vt6k8ZnpexWrvpgwC7RZQQDD95J9-Q-Mk8_LTKVtkcPwMUd7soNGJ3km/exec');
+        const productos = await resp.json();
 
-                if (!producto) {
-                    contenedor.innerHTML = '<p class="text-danger">Producto no encontrado.</p>';
-                    return;
-                }
+        const producto = productos.find(p => p.id == idBuscado);
+        spinner.style.display = 'none';
 
-                contenedor.innerHTML = `
+        if (!producto) {
+          contenedor.innerHTML = '<p class="text-danger">Producto no encontrado.</p>';
+          return;
+        }
+
+        contenedor.innerHTML = `
           <div class="col-md-6 fade-in">
             <img src="img/${producto.imagen}" alt="${producto.Nombre}" class="img-fluid rounded shadow" />
           </div>
@@ -102,17 +105,17 @@
             <a href="index.html" class="btn btn-secondary mt-3 ms-2">Volver</a>
           </div>
         `;
-            } catch (error) {
-                console.error('❌ Error cargando detalle:', error);
-                contenedor.innerHTML = '<p class="text-danger">Error al cargar el producto.</p>';
-            }
-        }
+      } catch (error) {
+        console.error('❌ Error cargando detalle:', error);
+        spinner.style.display = 'none';
+        contenedor.innerHTML = '<p class="text-danger">Error al cargar el producto.</p>';
+      }
+    }
 
-        document.addEventListener('DOMContentLoaded', cargarDetalleProducto);
-    </script>
+    document.addEventListener('DOMContentLoaded', cargarDetalleProducto);
+  </script>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
