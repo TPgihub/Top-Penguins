@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Registro</title>
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <th>Producto</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Método</th>
+        </tr>
+        <tr>
+            <td id="p"></td>
+            <td id="n"></td>
+            <td id="c"></td>
+            <td id="t"></td>
+            <td id="d"></td>
+            <td id="m"></td>
+        </tr>
+    </table>
+
+    <script>
+        const params = new URLSearchParams(location.search);
+        document.getElementById('p').textContent = params.get('producto') || '';
+        document.getElementById('n').textContent = params.get('nombre') || '';
+        document.getElementById('c').textContent = params.get('correo') || '';
+        document.getElementById('t').textContent = params.get('telefono') || '';
+        document.getElementById('d').textContent = params.get('direccion') || '';
+        document.getElementById('m').textContent = params.get('metodo') || '';
+    </script>
+</body>
+
+</html>
