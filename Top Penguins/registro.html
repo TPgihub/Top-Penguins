@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Registro de Solicitud</title>
 </head>
 <body>
@@ -33,20 +33,18 @@
   </table>
 
   <script>
-    const q = new URLSearchParams(window.location.search);
+    const datos = JSON.parse(localStorage.getItem('ultimaSolicitud') || '{}');
 
-    document.getElementById("fecha").textContent = new Date().toLocaleString();
-    document.getElementById("producto").textContent = q.get("producto") || "";
-    document.getElementById("nombre").textContent = q.get("nombre") || "";
-    document.getElementById("correo").textContent = q.get("correo") || "";
-    document.getElementById("telefono").textContent = q.get("telefono") || "";
-    document.getElementById("direccion").textContent = q.get("direccion") || "";
-    document.getElementById("metodo").textContent = q.get("metodo") || "";
-
-    const comprobante = q.get("comprobante");
-    document.getElementById("comprobante").innerHTML = comprobante
-      ? `<a href="${comprobante}" target="_blank"><img src="${comprobante}" width="80" /></a>`
-      : "Sin imagen";
+    document.getElementById('fecha').textContent = datos.timestamp || '';
+    document.getElementById('producto').textContent = datos.producto || '';
+    document.getElementById('nombre').textContent = datos.nombre || '';
+    document.getElementById('correo').textContent = datos.correo || '';
+    document.getElementById('telefono').textContent = datos.telefono || '';
+    document.getElementById('direccion').textContent = datos.direccion || '';
+    document.getElementById('metodo').textContent = datos.metodo || '';
+    document.getElementById('comprobante').innerHTML = datos.comprobante
+      ? `<a href="${datos.comprobante}" target="_blank"><img src="${datos.comprobante}" width="80" /></a>`
+      : 'Sin imagen';
   </script>
 </body>
 </html>
