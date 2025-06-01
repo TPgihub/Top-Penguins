@@ -1,5 +1,3 @@
-<!-- REEMPLAZA TODO EL ARCHIVO POR ESTE -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -66,10 +64,6 @@
       </div>
       <button type="submit" class="btn btn-success">Enviar solicitud</button>
     </form>
-
-    <div id="confirmacion" class="alert alert-success mt-4 d-none">
-      ✅ ¡Tu solicitud ha sido enviada correctamente! Nos pondremos en contacto contigo pronto.
-    </div>
   </div>
 
   <script>
@@ -116,36 +110,20 @@
     document.addEventListener('DOMContentLoaded', () => {
       cargarProducto();
 
-      document.getElementById('formulario-solicitud').addEventListener('submit', async function (e) {
-  e.preventDefault();
+      document.getElementById('formulario-solicitud').addEventListener('submit', function (e) {
+        e.preventDefault();
 
-  const form = e.target;
-  const datos = new URLSearchParams();
-  datos.append('producto', productoSeleccionado?.Nombre || 'Producto no identificado');
-  datos.append('nombre', form.nombre.value);
-  datos.append('correo', form.correo.value);
-  datos.append('telefono', form.telefono.value);
-  datos.append('direccion', form.direccion.value);
-  datos.append('metodo', form.metodo.value);
+        const form = e.target;
+        const nombre = encodeURIComponent(form.nombre.value);
+        const correo = encodeURIComponent(form.correo.value);
+        const telefono = encodeURIComponent(form.telefono.value);
+        const direccion = encodeURIComponent(form.direccion.value);
+        const metodo = encodeURIComponent(form.metodo.value);
+        const producto = encodeURIComponent(productoSeleccionado?.Nombre || 'Producto no identificado');
 
-  try {
-   const resp = await fetch('https://backend-solicitud.onrender.com/api/solicitud', {
-
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: datos.toString()
-    });
-
-    const resultado = await resp.json();
-    alert(resultado.mensaje);
-  } catch (error) {
-    alert('❌ Error al enviar la solicitud.');
-    console.error(error);
-  }
-});
-
+        // Redirige a registro.html con los datos en la URL
+        window.location.href = `registro.html?producto=${producto}&nombre=${nombre}&correo=${correo}&telefono=${telefono}&direccion=${direccion}&metodo=${metodo}`;
+      });
     });
   </script>
 
