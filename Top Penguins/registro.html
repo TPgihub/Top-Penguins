@@ -1,40 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Registro</title>
+  <meta charset="UTF-8" />
+  <title>Registro de Solicitud</title>
 </head>
-
 <body>
-    <table border="1">
-        <tr>
-            <th>Producto</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Método</th>
-        </tr>
-        <tr>
-            <td id="p"></td>
-            <td id="n"></td>
-            <td id="c"></td>
-            <td id="t"></td>
-            <td id="d"></td>
-            <td id="m"></td>
-        </tr>
-    </table>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Producto</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+        <th>Método de Contacto</th>
+        <th>Comprobante URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="fecha"></td>
+        <td id="producto"></td>
+        <td id="nombre"></td>
+        <td id="correo"></td>
+        <td id="telefono"></td>
+        <td id="direccion"></td>
+        <td id="metodo"></td>
+        <td id="comprobante"></td>
+      </tr>
+    </tbody>
+  </table>
 
-    <script>
-        const params = new URLSearchParams(location.search);
-        document.getElementById('p').textContent = params.get('producto') || '';
-        document.getElementById('n').textContent = params.get('nombre') || '';
-        document.getElementById('c').textContent = params.get('correo') || '';
-        document.getElementById('t').textContent = params.get('telefono') || '';
-        document.getElementById('d').textContent = params.get('direccion') || '';
-        document.getElementById('m').textContent = params.get('metodo') || '';
-    </script>
+  <script>
+    const q = new URLSearchParams(window.location.search);
+
+    document.getElementById("fecha").textContent = new Date().toLocaleString();
+    document.getElementById("producto").textContent = q.get("producto") || "";
+    document.getElementById("nombre").textContent = q.get("nombre") || "";
+    document.getElementById("correo").textContent = q.get("correo") || "";
+    document.getElementById("telefono").textContent = q.get("telefono") || "";
+    document.getElementById("direccion").textContent = q.get("direccion") || "";
+    document.getElementById("metodo").textContent = q.get("metodo") || "";
+
+    const comprobante = q.get("comprobante");
+    document.getElementById("comprobante").innerHTML = comprobante
+      ? `<a href="${comprobante}" target="_blank"><img src="${comprobante}" width="80" /></a>`
+      : "Sin imagen";
+  </script>
 </body>
-
 </html>
