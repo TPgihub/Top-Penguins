@@ -2,40 +2,72 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro</title>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
-    table { border-collapse: collapse; width: 100%; }
-    td, th { border: 1px solid #ccc; padding: 8px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de solicitud</title>
+  <link rel="stylesheet" href="css/estilo.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
-<body>
-  <h2>Última solicitud registrada</h2>
-  <table id="tabla-solicitud">
-    <tr><th>Producto</th><td id="td-producto"></td></tr>
-    <tr><th>Nombre</th><td id="td-nombre"></td></tr>
-    <tr><th>Correo</th><td id="td-correo"></td></tr>
-    <tr><th>Teléfono</th><td id="td-telefono"></td></tr>
-    <tr><th>Dirección</th><td id="td-direccion"></td></tr>
-    <tr><th>Método</th><td id="td-metodo"></td></tr>
-    <tr><th>Comprobante</th><td id="td-comprobante"></td></tr>
-    <tr><th>Fecha</th><td id="td-fecha"></td></tr>
-  </table>
+<body class="bg-light">
+  <div class="container py-5">
+    <h3 class="mb-4">Registro de solicitud</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle" id="tabla-registro">
+        <thead class="table-primary">
+          <tr>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Método</th>
+            <th>Comprobante</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Datos insertados dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <script>
+    // Leer datos de URL solo al cargar la primera vez
     const params = new URLSearchParams(window.location.search);
-    const mostrar = (campo) => document.getElementById('td-' + campo).textContent = params.get(campo) || '';
-    mostrar('producto');
-    mostrar('nombre');
-    mostrar('correo');
-    mostrar('telefono');
-    mostrar('direccion');
-    mostrar('metodo');
-    mostrar('fecha');
+    const datos = {
+      fecha: params.get("fecha"),
+      producto: params.get("producto"),
+      nombre: params.get("nombre"),
+      correo: params.get("correo"),
+      telefono: params.get("telefono"),
+      direccion: params.get("direccion"),
+      metodo: params.get("metodo"),
+      comprobante: params.get("comprobante")
+    };
 
-    const url = params.get('comprobante');
-    document.getElementById('td-comprobante').innerHTML = url ? `<a href="${url}" target="_blank">${url}</a>` : '';
+    // Validar que todos los campos existen
+    const todosLlenos = Object.values(datos).every(val => val && val.trim() !== "");
+
+    if (todosLlenos) {
+      const filaHTML = `
+        <tr>
+          <td>${datos.fecha}</td>
+          <td>${datos.producto}</td>
+          <td>${datos.nombre}</td>
+          <td>${datos.correo}</td>
+          <td>${datos.telefono}</td>
+          <td>${datos.direccion}</td>
+          <td>${datos.metodo}</td>
+          <td><img src="${datos.comprobante}" alt="comprobante" style="max-width: 100px;"></td>
+        </tr>
+      `;
+      document.querySelector("#tabla-registro tbody").innerHTML = filaHTML;
+
+      // Reemplazar la URL para quitar los parámetros (queda limpia)
+      window.history.replaceState(null, "", window.location.pathname);
+    }
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
