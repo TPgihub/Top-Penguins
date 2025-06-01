@@ -114,7 +114,7 @@
           return;
         }
 
-        // 1. Subir imagen a imgbb
+        // Subir imagen a imgbb
         const formData = new FormData();
         formData.append('image', file);
 
@@ -127,8 +127,8 @@
           const imgbbData = await imgbbResp.json();
           const imagenURL = imgbbData.data.url;
 
-          // 2. Guardar en localStorage
-          const datos = {
+          // Crear URL con los datos y redirigir
+          const params = new URLSearchParams({
             timestamp: new Date().toLocaleString(),
             producto: productoSeleccionado?.Nombre || 'Producto no identificado',
             nombre: form.nombre.value,
@@ -137,15 +137,9 @@
             direccion: form.direccion.value,
             metodo: form.metodo.value,
             comprobante: imagenURL
-          };
+          });
 
-          localStorage.setItem('ultimaSolicitud', JSON.stringify(datos));
-
-          // 3. Confirmación y redirección silenciosa
-          document.getElementById('confirmacion').classList.remove('d-none');
-          setTimeout(() => {
-            window.location.href = 'registro.html';
-          }, 1000);
+          window.location.href = 'registro.html?' + params.toString();
         } catch (error) {
           alert('❌ Error al subir la imagen.');
           console.error(error);
