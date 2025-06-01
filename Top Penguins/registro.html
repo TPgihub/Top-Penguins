@@ -1,50 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro de Solicitud</title>
+  <meta charset="UTF-8" />
+  <title>Registro</title>
 </head>
 <body>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Timestamp</th>
-        <th>Producto</th>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Teléfono</th>
-        <th>Dirección</th>
-        <th>Método de Contacto</th>
-        <th>Comprobante URL</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id="fecha"></td>
-        <td id="producto"></td>
-        <td id="nombre"></td>
-        <td id="correo"></td>
-        <td id="telefono"></td>
-        <td id="direccion"></td>
-        <td id="metodo"></td>
-        <td id="comprobante"></td>
-      </tr>
-    </tbody>
+  <h3>📋 Registro de Solicitud</h3>
+  <table border="1" id="tabla-registro">
+    <tr><th>Producto</th><td id="producto"></td></tr>
+    <tr><th>Nombre</th><td id="nombre"></td></tr>
+    <tr><th>Correo</th><td id="correo"></td></tr>
+    <tr><th>Teléfono</th><td id="telefono"></td></tr>
+    <tr><th>Dirección</th><td id="direccion"></td></tr>
+    <tr><th>Método</th><td id="metodo"></td></tr>
+    <tr><th>Comprobante</th><td id="comprobante"></td></tr>
   </table>
 
   <script>
-    const datos = JSON.parse(localStorage.getItem('ultimaSolicitud') || '{}');
+    const params = new URLSearchParams(window.location.search);
 
-    document.getElementById('fecha').textContent = datos.timestamp || '';
-    document.getElementById('producto').textContent = datos.producto || '';
-    document.getElementById('nombre').textContent = datos.nombre || '';
-    document.getElementById('correo').textContent = datos.correo || '';
-    document.getElementById('telefono').textContent = datos.telefono || '';
-    document.getElementById('direccion').textContent = datos.direccion || '';
-    document.getElementById('metodo').textContent = datos.metodo || '';
-    document.getElementById('comprobante').innerHTML = datos.comprobante
-      ? `<a href="${datos.comprobante}" target="_blank"><img src="${datos.comprobante}" width="80" /></a>`
-      : 'Sin imagen';
+    document.getElementById("producto").textContent    = params.get("producto") || "";
+    document.getElementById("nombre").textContent      = params.get("nombre") || "";
+    document.getElementById("correo").textContent      = params.get("correo") || "";
+    document.getElementById("telefono").textContent    = params.get("telefono") || "";
+    document.getElementById("direccion").textContent   = params.get("direccion") || "";
+    document.getElementById("metodo").textContent      = params.get("metodo") || "";
+
+    const comprobanteUrl = params.get("comprobante");
+    if (comprobanteUrl) {
+      const link = document.createElement("a");
+      link.href = comprobanteUrl;
+      link.textContent = "📷 Ver imagen";
+      link.target = "_blank";
+      document.getElementById("comprobante").appendChild(link);
+    }
   </script>
 </body>
 </html>
