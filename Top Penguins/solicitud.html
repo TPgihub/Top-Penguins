@@ -1,3 +1,4 @@
+<!-- REEMPLAZA TODO EL ARCHIVO POR ESTE -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,51 +10,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body class="bg-light">
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a href="index.html">
         <img style="border-radius: 10%; margin-right: 10px;" src="img/Top-removebg-preview.png" width="190px" alt="Top Penguins Logo" />
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="d-flex me-auto" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" />
-          <button class="btn btn-outline-light" type="submit">Buscar</button>
-        </form>
-        <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-3">
-          <li class="nav-item text-center"><a class="nav-link active" href="https://www.instagram.com/top_penguins"><i class="fab fa-instagram fa-xl"></i></a></li>
-          <li class="nav-item text-center"><a class="nav-link active" href="https://www.facebook.com/profile.php?id=61566805325900"><i class="fab fa-facebook fa-xl"></i></a></li>
-          <li class="nav-item text-center"><a class="nav-link active" href="#"><i class="fab fa-whatsapp fa-xl"></i></a></li>
-        </ul>
-      </div>
     </div>
   </nav>
 
-  <!-- Contenido -->
   <div class="container py-5">
     <div id="producto-info" class="mb-4"></div>
 
     <h4>Formulario de solicitud</h4>
-    <form id="formulario-solicitud" class="bg-white p-4 rounded shadow">
-      <div class="mb-3">
-        <label>Nombre completo</label>
-        <input type="text" class="form-control" name="nombre" required />
-      </div>
-      <div class="mb-3">
-        <label>Correo electrónico</label>
-        <input type="email" class="form-control" name="correo" required />
-      </div>
-      <div class="mb-3">
-        <label>Teléfono</label>
-        <input type="tel" class="form-control" name="telefono" required />
-      </div>
-      <div class="mb-3">
-        <label>Dirección de entrega</label>
-        <textarea class="form-control" name="direccion" rows="3" required></textarea>
-      </div>
+    <form id="formulario-solicitud" class="bg-white p-4 rounded shadow" enctype="multipart/form-data">
+      <div class="mb-3"><label>Nombre completo</label><input type="text" class="form-control" name="nombre" required /></div>
+      <div class="mb-3"><label>Correo electrónico</label><input type="email" class="form-control" name="correo" required /></div>
+      <div class="mb-3"><label>Teléfono</label><input type="tel" class="form-control" name="telefono" required /></div>
+      <div class="mb-3"><label>Dirección de entrega</label><textarea class="form-control" name="direccion" rows="3" required></textarea></div>
       <div class="mb-3">
         <label>Método de contacto preferido</label>
         <select class="form-select" name="metodo" required>
@@ -61,6 +34,10 @@
           <option value="whatsapp">WhatsApp</option>
           <option value="correo">Correo electrónico</option>
         </select>
+      </div>
+      <div class="mb-3">
+        <label>Subir comprobante de pago</label>
+        <input type="file" class="form-control" name="comprobante" accept="image/*" required />
       </div>
       <button type="submit" class="btn btn-success">Enviar solicitud</button>
     </form>
@@ -72,19 +49,15 @@
     async function cargarProducto() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
-
       try {
         const resp = await fetch('https://script.google.com/macros/s/AKfycbzd5jnLNuSYGRPM4hK4wmctrxqITWit32S3g-vpwwflWBOVno_3OnFkj1rNx2LAsQ5i/exec');
         const productos = await resp.json();
         const producto = productos.find(p => p.id == id);
-
         if (!producto) {
           document.getElementById('producto-info').innerHTML = '<p class="text-danger">Producto no encontrado.</p>';
           return;
         }
-
         productoSeleccionado = producto;
-
         document.getElementById('producto-info').innerHTML = `
           <div class="card mb-4">
             <div class="row g-0">
@@ -101,28 +74,44 @@
               </div>
             </div>
           </div>`;
-      } catch (error) {
+      } catch (err) {
         document.getElementById('producto-info').innerHTML = '<p class="text-danger">Error al cargar el producto.</p>';
-        console.error(error);
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       cargarProducto();
 
-      document.getElementById('formulario-solicitud').addEventListener('submit', function (e) {
+      document.getElementById('formulario-solicitud').addEventListener('submit', async function (e) {
         e.preventDefault();
-
         const form = e.target;
+        const imagen = form.comprobante.files[0];
+
+        const producto = encodeURIComponent(productoSeleccionado?.Nombre || 'Producto no identificado');
         const nombre = encodeURIComponent(form.nombre.value);
         const correo = encodeURIComponent(form.correo.value);
         const telefono = encodeURIComponent(form.telefono.value);
         const direccion = encodeURIComponent(form.direccion.value);
         const metodo = encodeURIComponent(form.metodo.value);
-        const producto = encodeURIComponent(productoSeleccionado?.Nombre || 'Producto no identificado');
 
-        // Redirige a registro.html con los datos en la URL
-        window.location.href = `registro.html?producto=${producto}&nombre=${nombre}&correo=${correo}&telefono=${telefono}&direccion=${direccion}&metodo=${metodo}`;
+        let comprobanteUrl = '';
+        if (imagen) {
+          const formData = new FormData();
+          formData.append("image", imagen);
+          try {
+            const resp = await fetch("https://api.imgbb.com/1/upload?key=45aa5a2108c661bc121f6185fbcd31ca", {
+              method: "POST",
+              body: formData
+            });
+            const result = await resp.json();
+            comprobanteUrl = encodeURIComponent(result.data.url);
+          } catch (err) {
+            alert("❌ Error al subir la imagen");
+            return;
+          }
+        }
+
+        window.location.href = `registro.html?producto=${producto}&nombre=${nombre}&correo=${correo}&telefono=${telefono}&direccion=${direccion}&metodo=${metodo}&comprobante=${comprobanteUrl}`;
       });
     });
   </script>
