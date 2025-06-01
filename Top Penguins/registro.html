@@ -2,37 +2,40 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registro</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
+    table { border-collapse: collapse; width: 100%; }
+    td, th { border: 1px solid #ccc; padding: 8px; }
+  </style>
 </head>
 <body>
-  <h3>📋 Registro de Solicitud</h3>
-  <table border="1" id="tabla-registro">
-    <tr><th>Producto</th><td id="producto"></td></tr>
-    <tr><th>Nombre</th><td id="nombre"></td></tr>
-    <tr><th>Correo</th><td id="correo"></td></tr>
-    <tr><th>Teléfono</th><td id="telefono"></td></tr>
-    <tr><th>Dirección</th><td id="direccion"></td></tr>
-    <tr><th>Método</th><td id="metodo"></td></tr>
-    <tr><th>Comprobante</th><td id="comprobante"></td></tr>
+  <h2>Última solicitud registrada</h2>
+  <table id="tabla-solicitud">
+    <tr><th>Producto</th><td id="td-producto"></td></tr>
+    <tr><th>Nombre</th><td id="td-nombre"></td></tr>
+    <tr><th>Correo</th><td id="td-correo"></td></tr>
+    <tr><th>Teléfono</th><td id="td-telefono"></td></tr>
+    <tr><th>Dirección</th><td id="td-direccion"></td></tr>
+    <tr><th>Método</th><td id="td-metodo"></td></tr>
+    <tr><th>Comprobante</th><td id="td-comprobante"></td></tr>
+    <tr><th>Fecha</th><td id="td-fecha"></td></tr>
   </table>
 
   <script>
-    const datos = JSON.parse(localStorage.getItem('ultimaSolicitud') || '{}');
+    const params = new URLSearchParams(window.location.search);
+    const mostrar = (campo) => document.getElementById('td-' + campo).textContent = params.get(campo) || '';
+    mostrar('producto');
+    mostrar('nombre');
+    mostrar('correo');
+    mostrar('telefono');
+    mostrar('direccion');
+    mostrar('metodo');
+    mostrar('fecha');
 
-    document.getElementById("producto").textContent = datos.producto || '';
-    document.getElementById("nombre").textContent = datos.nombre || '';
-    document.getElementById("correo").textContent = datos.correo || '';
-    document.getElementById("telefono").textContent = datos.telefono || '';
-    document.getElementById("direccion").textContent = datos.direccion || '';
-    document.getElementById("metodo").textContent = datos.metodo || '';
-
-    if (datos.comprobante) {
-      const link = document.createElement("a");
-      link.href = datos.comprobante;
-      link.target = "_blank";
-      link.textContent = "📷 Ver imagen";
-      document.getElementById("comprobante").appendChild(link);
-    }
+    const url = params.get('comprobante');
+    document.getElementById('td-comprobante').innerHTML = url ? `<a href="${url}" target="_blank">${url}</a>` : '';
   </script>
 </body>
 </html>
