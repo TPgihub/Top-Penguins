@@ -125,15 +125,21 @@
     const mensaje = urlParams.get('mensaje');
 
     if (mensaje === '1') {
-      // Mostrar mensaje temporal
+      // Crear mensaje flotante
       const alerta = document.createElement('div');
       alerta.className = 'alert alert-info text-center fixed-top m-0';
+      alerta.style.transition = 'opacity 1.5s ease';
+      alerta.style.opacity = '1';
       alerta.innerText = '📨 Solicitud en proceso... En unos minutos recibirás un correo de confirmación.';
       document.body.prepend(alerta);
 
-      setTimeout(() => alerta.remove(), 6000); // Ocultar después de 6 segundos
+      // Tiempo visible (ej. 12 segundos)
+      setTimeout(() => {
+        alerta.style.opacity = '0'; // Desvanece
+        setTimeout(() => alerta.remove(), 1500); // Luego lo quita del DOM
+      }, 12000);
 
-      // Llamar a registro.html en segundo plano (oculto)
+      // Carga en segundo plano
       const datos = sessionStorage.getItem('datosSolicitud');
       if (datos) {
         const iframe = document.createElement('iframe');
@@ -145,6 +151,7 @@
     }
   });
 </script>
+
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
