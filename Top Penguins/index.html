@@ -35,6 +35,7 @@
 </head>
 <body class="bg-light">
 
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a href="index.html">
@@ -63,12 +64,7 @@
     </div>
   </nav>
 
-  <div class="container mt-4">
-    <div id="mensaje-solicitud" class="alert alert-info d-none" role="alert">
-      ➡️ Solicitud en proceso. En unos minutos recibirá un mensaje en su correo electrónico.
-    </div>
-  </div>
-
+  <!-- Spinner de carga -->
   <div id="spinner" class="spinner-container">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Cargando productos...</span>
@@ -76,6 +72,7 @@
     <p class="mt-2">Cargando productos...</p>
   </div>
 
+  <!-- Contenedor de productos -->
   <div class="container py-5">
     <div class="row" id="productos-container"></div>
   </div>
@@ -101,7 +98,7 @@
                   <h5 class="card-title">${producto.Nombre}</h5>
                   <p class="card-text">${producto['descripcion corta']}</p>
                   <p class="card-text"><strong>Precio:</strong> Lps ${producto.Precio}</p>
-                  <a href="detalle.html?id=${producto.id}" class="btn btn-primary">Solicitar</a>
+                 <a href="detalle.html?id=${producto.id}" class="btn btn-primary">Solicitar</a>
 
                 </div>
               </div>
@@ -123,22 +120,6 @@
     document.addEventListener('DOMContentLoaded', cargarProductos);
   </script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const mensajeDiv = document.getElementById('mensaje-solicitud');
-
-      // Comprobar si hay un mensaje de solicitud pendiente en localStorage
-      if (localStorage.getItem('solicitudEnviada') === 'true') {
-        mensajeDiv.classList.remove('d-none'); // Mostrar el mensaje
-
-        // Hacer que el mensaje se desvanezca después de unos segundos
-        setTimeout(() => {
-          mensajeDiv.classList.add('d-none'); // Ocultar el mensaje
-          localStorage.removeItem('solicitudEnviada'); // Limpiar el localStorage
-        }, 8000); // 8 segundos (puedes ajustar este valor si quieres más o menos tiempo)
-      }
-    });
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
