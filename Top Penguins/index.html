@@ -119,6 +119,33 @@
 
     document.addEventListener('DOMContentLoaded', cargarProductos);
   </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const mensaje = urlParams.get('mensaje');
+
+    if (mensaje === '1') {
+      // Mostrar mensaje temporal
+      const alerta = document.createElement('div');
+      alerta.className = 'alert alert-info text-center fixed-top m-0';
+      alerta.innerText = '📨 Solicitud en proceso... En unos minutos recibirás un correo de confirmación.';
+      document.body.prepend(alerta);
+
+      setTimeout(() => alerta.remove(), 6000); // Ocultar después de 6 segundos
+
+      // Llamar a registro.html en segundo plano (oculto)
+      const datos = sessionStorage.getItem('datosSolicitud');
+      if (datos) {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = 'registro.html?' + datos;
+        document.body.appendChild(iframe);
+        sessionStorage.removeItem('datosSolicitud');
+      }
+    }
+  });
+</script>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
