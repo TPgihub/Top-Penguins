@@ -45,10 +45,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="d-flex me-auto" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" />
-          <button class="btn btn-outline-light" type="submit">Buscar</button>
-        </form>
+        <form class="d-flex me-auto position-relative" role="search" onsubmit="filtrarProductos(event)">
+  <input id="input-busqueda" class="form-control me-2" type="search" placeholder="Buscar" autocomplete="off" />
+  <button class="btn btn-outline-light" type="submit">Buscar</button>
+  <ul id="sugerencias" class="list-group position-absolute w-100" style="top:100%; z-index:10;"></ul>
+</form>
+
         <ul class="navbar-nav d-flex flex-row align-items-center ms-auto gap-3">
           <li class="nav-item text-center">
             <a class="nav-link active" href="https://www.instagram.com/top_penguins"><i class="fab fa-instagram fa-xl"></i></a>
@@ -82,6 +84,7 @@
       try {
         const respuesta = await fetch('https://script.google.com/macros/s/AKfycbzo0rK2Eow5vt6k8ZnpexWrvpgwC7RZQQDD95J9-Q-Mk8_LTKVtkcPwMUd7soNGJ3km/exec');
         const productos = await respuesta.json();
+        window.listaProductos = productos;
 
         const contenedor = document.getElementById('productos-container');
         const spinner = document.getElementById('spinner');
@@ -150,7 +153,78 @@
       }
     }
   });
+    
 </script>
+  <script>
+  const inputBusqueda = document.getElementById('input-busqueda');
+  const sugerencias = document.getElementById('sugerencias');
+
+  inputBusqueda.addEventListener('input', () => {
+    const texto = inputBusqueda.value.trim().toLowerCase();
+    sugerencias.innerHTML = '';
+
+    if (!texto || !window.listaProductos) return;
+
+    const coincidencias = window.listaProductos.filter(p => {
+      const nombre = p.Nombre?.toLowerCase() || '';
+      const descripcion = p['descripcion corta']?.toLowerCase() || '';
+      const especificaciones = p['especificaciones']?.toLowerCase() || '';
+      return nombre.includes(texto) || descripcion.includes(texto) || especificaciones.includes(texto);
+    });
+
+    coincidencias.slice(0, 5).forEach(p => {
+      const item = document.createElement('li');
+      item.className = 'list-group-item list-group-item-action';
+      item.textContent = p.Nombre;
+      item.addEventListener('click', () => {
+        window.location.href = `detalle.html?id=${p.id}`;
+      });
+      sugerencias.appendChild(item);
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('form')) sugerencias.innerHTML = '';
+  });
+
+  function filtrarProductos(e) {
+    e.preventDefault();
+    const texto = inputBusqueda.value.trim().toLowerCase();
+    sugerencias.innerHTML = '';
+    const contenedor = document.getElementById('productos-container');
+    contenedor.innerHTML = '';
+
+    const productosFiltrados = window.listaProductos.filter(p => {
+      const nombre = p.Nombre?.toLowerCase() || '';
+      const descripcion = p['descripcion corta']?.toLowerCase() || '';
+      const especificaciones = p['especificaciones']?.toLowerCase() || '';
+      return nombre.includes(texto) || descripcion.includes(texto) || especificaciones.includes(texto);
+    });
+
+    if (productosFiltrados.length === 0) {
+      contenedor.innerHTML = '<p class="text-danger">No se encontraron productos con esa búsqueda.</p>';
+      return;
+    }
+
+    productosFiltrados.forEach((producto, i) => {
+      const card = document.createElement('div');
+      card.className = 'col-md-4 mb-4';
+      card.innerHTML = `
+        <div class="card h-100 shadow-sm mostrar">
+          <img src="img/${producto.imagen}" class="card-img-top" alt="${producto.Nombre}">
+          <div class="card-body">
+            <h5 class="card-title">${producto.Nombre}</h5>
+            <p class="card-text">${producto['descripcion corta']}</p>
+            <p class="card-text"><strong>Precio:</strong> Lps ${producto.Precio}</p>
+            <a href="detalle.html?id=${producto.id}" class="btn btn-primary">Solicitar</a>
+          </div>
+        </div>
+      `;
+      contenedor.appendChild(card);
+    });
+  }
+</script>
+
 
 
 
