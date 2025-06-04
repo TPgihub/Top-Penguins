@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body class="bg-light">
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a href="index.html">
@@ -17,6 +18,7 @@
     </div>
   </nav>
 
+  <!-- Contenido -->
   <div class="container py-5">
     <div id="producto-info" class="mb-4"></div>
 
@@ -60,11 +62,6 @@
 
   <script>
     let productoSeleccionado = null;
-
-    // URL de tu script de Google Apps Script que procesa los datos
-    // ASUMO que este es el mismo script que actualmente "recibiría" los datos de registro.html
-    // DEBES REEMPLAZAR ESTO CON LA URL DE DESPLIEGUE DE TU SCRIPT DE GOOGLE APPS SCRIPT (DEBE SER DE TIPO "EJECUTAR COMO APLICACIÓN WEB")
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzd5jnLNuSYGRPM4hK4wmctrxqITWit32S3g-vpwwflWBOVno_3OnFkj1rNx2LAsQ5i/exec'; // Mantengo tu URL actual como placeholder
 
     async function cargarProducto() {
       const params = new URLSearchParams(window.location.search);
@@ -111,38 +108,24 @@
         e.preventDefault();
 
         const form = e.target;
-        const submitButton = form.querySelector('button[type="submit"]'); // Obtener el botón de envío
-
-        // Deshabilitar el botón para evitar envíos múltiples
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...'; // Cambiar texto del botón
-
         const file = form.comprobante.files[0];
         if (!file) {
           alert('Sube una imagen del comprobante');
-          submitButton.disabled = false; // Habilitar de nuevo
-          submitButton.textContent = 'Enviar solicitud'; // Restaurar texto
           return;
         }
 
-        const formDataImgbb = new FormData();
-        formDataImgbb.append('image', file);
+        const formData = new FormData();
+        formData.append('image', file);
 
         try {
-          // --- Paso 1: Subir imagen a ImgBB ---
           const imgbbResp = await fetch('https://api.imgbb.com/1/upload?key=45aa5a2108c661bc121f6185fbcd31ca', {
             method: 'POST',
-            body: formDataImgbb
+            body: formData
           });
-
-          if (!imgbbResp.ok) {
-            throw new Error(`Error en ImgBB: ${imgbbResp.statusText}`);
-          }
 
           const imgbbData = await imgbbResp.json();
           const imagenURL = imgbbData.data.url;
 
-          // --- Paso 2: Enviar datos al script de Google Apps Script ---
           const params = new URLSearchParams({
             producto: productoSeleccionado?.Nombre || 'Producto no identificado',
             nombre: form.nombre.value,
@@ -154,30 +137,10 @@
             fecha: new Date().toLocaleString()
           });
 
-          // Envía los datos al script de Apps Script usando fetch
-          // Asumo que tu script está configurado para recibir peticiones GET o POST con estos parámetros
-          // Si tu script usa doPos(e), deberías enviar con 'method: 'POST', body: params'
-          // Si usa doGet(e), 'SCRIPT_URL + '?' + params.toString()' es suficiente
-          const scriptResp = await fetch(SCRIPT_URL + '?' + params.toString());
-
-          if (!scriptResp.ok) {
-            throw new Error(`Error al enviar datos al script: ${scriptResp.statusText}`);
-          }
-
-          // La respuesta del script no la necesitamos para este caso, solo que se haya ejecutado correctamente
-
-          // --- Paso 3: Mostrar mensaje temporal y redirigir ---
-          // Guardar el mensaje en el localStorage para que sea visible en index.html
-          localStorage.setItem('solicitudEnviada', 'true');
-
-          // Redirigir a index.html
-          window.location.href = 'index.html';
-
+          window.location.href = 'registro.html?' + params.toString();
         } catch (error) {
-          alert('❌ Error al procesar la solicitud: ' + error.message);
-          console.error('Error al procesar la solicitud:', error);
-          submitButton.disabled = false; // Habilitar de nuevo
-          submitButton.textContent = 'Enviar solicitud'; // Restaurar texto
+          alert('❌ Error al subir la imagen.');
+          console.error(error);
         }
       });
     });
