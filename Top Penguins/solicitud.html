@@ -105,44 +105,48 @@
       cargarProducto();
 
       document.getElementById('formulario-solicitud').addEventListener('submit', async function (e) {
-        e.preventDefault();
+  e.preventDefault();
 
-        const form = e.target;
-        const file = form.comprobante.files[0];
-        if (!file) {
-          alert('Sube una imagen del comprobante');
-          return;
-        }
+  const form = e.target;
+  const file = form.comprobante.files[0];
+  if (!file) {
+    alert('Sube una imagen del comprobante');
+    return;
+  }
 
-        const formData = new FormData();
-        formData.append('image', file);
+  const formData = new FormData();
+  formData.append('image', file);
 
-        try {
-          const imgbbResp = await fetch('https://api.imgbb.com/1/upload?key=45aa5a2108c661bc121f6185fbcd31ca', {
-            method: 'POST',
-            body: formData
-          });
+  try {
+    const imgbbResp = await fetch('https://api.imgbb.com/1/upload?key=45aa5a2108c661bc121f6185fbcd31ca', {
+      method: 'POST',
+      body: formData
+    });
 
-          const imgbbData = await imgbbResp.json();
-          const imagenURL = imgbbData.data.url;
+    const imgbbData = await imgbbResp.json();
+    const imagenURL = imgbbData.data.url;
 
-          const params = new URLSearchParams({
-            producto: productoSeleccionado?.Nombre || 'Producto no identificado',
-            nombre: form.nombre.value,
-            correo: form.correo.value,
-            telefono: form.telefono.value,
-            direccion: form.direccion.value,
-            metodo: form.metodo.value,
-            comprobante: imagenURL,
-            fecha: new Date().toLocaleString()
-          });
+    const params = new URLSearchParams({
+      producto: productoSeleccionado?.Nombre || 'Producto no identificado',
+      nombre: form.nombre.value,
+      correo: form.correo.value,
+      telefono: form.telefono.value,
+      direccion: form.direccion.value,
+      metodo: form.metodo.value,
+      comprobante: imagenURL,
+      fecha: new Date().toLocaleString()
+    });
 
-          window.location.href = 'registro.html?' + params.toString();
-        } catch (error) {
-          alert('❌ Error al subir la imagen.');
-          console.error(error);
-        }
-      });
+    // GUARDAR DATOS EN SESSION Y REDIRIGIR A INDEX
+    sessionStorage.setItem('datosSolicitud', params.toString());
+    window.location.href = 'index.html?mensaje=1';
+
+  } catch (error) {
+    alert('❌ Error al subir la imagen.');
+    console.error(error);
+  }
+});
+
     });
   </script>
 
