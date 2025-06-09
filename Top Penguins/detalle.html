@@ -119,7 +119,8 @@
             <h2>${producto.Nombre}</h2>
             <p class="text-primary fw-bold fs-4">Lps ${producto.Precio}</p>
             <p><strong>Descripción:</strong> ${producto['descripcion larga']}</p>
-            <p><strong>Especificaciones:</strong> ${producto['especificaciones']}</p>
+            <p><strong>Especificaciones:</strong><br>${producto['especificaciones'].replace(/\n/g, '<br>')}</p>
+
             <a href="solicitud.html?id=${producto.id}" class="btn btn-success mt-3">Comprar este producto</a>
             <a href="index.html" class="btn btn-secondary mt-3 ms-2">Volver</a>
           </div>
