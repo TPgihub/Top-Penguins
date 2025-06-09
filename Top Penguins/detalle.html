@@ -92,10 +92,29 @@
           return;
         }
 
-        contenedor.innerHTML = `
-          <div class="col-md-6 fade-in">
-            <img src="img/${producto.imagen}" alt="${producto.Nombre}" class="img-fluid rounded shadow" />
+        const imagenes = [producto.imagen, producto.Imagen2, producto.Imagen3, producto.Imagen4].filter(img => img);
+        const carruselHTML = `
+          <div id="carruselProducto" class="carousel slide fade-in" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              ${imagenes.map((img, i) => `
+                <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                  <img src="img/${img}" class="d-block w-100 rounded shadow" alt="Imagen ${i + 1}">
+                </div>
+              `).join('')}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carruselProducto" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carruselProducto" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Siguiente</span>
+            </button>
           </div>
+        `;
+
+        contenedor.innerHTML = `
+          <div class="col-md-6">${carruselHTML}</div>
           <div class="col-md-6 fade-in">
             <h2>${producto.Nombre}</h2>
             <p class="text-primary fw-bold fs-4">Lps ${producto.Precio}</p>
