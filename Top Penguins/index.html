@@ -31,6 +31,11 @@
       text-align: center;
       padding: 3rem 0;
     }
+
+    #sugerencias {
+      max-height: 200px;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <body class="bg-light">
@@ -79,6 +84,7 @@
     <div class="row" id="productos-container"></div>
   </div>
 
+  <!-- Script carga productos -->
   <script>
     async function cargarProductos() {
       try {
@@ -106,6 +112,7 @@
               </div>
             `;
             contenedor.appendChild(card);
+
             setTimeout(() => {
               card.querySelector('.card').classList.add('mostrar');
             }, i * 100);
@@ -120,6 +127,7 @@
     document.addEventListener('DOMContentLoaded', cargarProductos);
   </script>
 
+  <!-- Script mensaje de confirmación -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -143,3 +151,84 @@
           const iframe = document.createElement('iframe');
           iframe.style.display = 'none';
           iframe.src = 'registro.html?' + datos;
+          document.body.appendChild(iframe);
+          sessionStorage.removeItem('datosSolicitud');
+        }
+      }
+    });
+  </script>
+
+  <!-- Script búsqueda y filtrado -->
+  <script>
+    const inputBusqueda = document.getElementById('input-busqueda');
+    const sugerencias = document.getElementById('sugerencias');
+
+    inputBusqueda.addEventListener('input', () => {
+      const texto = inputBusqueda.value.trim().toLowerCase();
+      sugerencias.innerHTML = '';
+
+      if (!texto || !window.listaProductos) return;
+
+      const coincidencias = window.listaProductos.filter(p => {
+        const nombre = p.Nombre?.toLowerCase() || '';
+        const descripcion = p['descripcion corta']?.toLowerCase() || '';
+        const especificaciones = p['especificaciones']?.toLowerCase() || '';
+        return nombre.includes(texto) || descripcion.includes(texto) || especificaciones.includes(texto);
+      });
+
+      coincidencias.slice(0, 5).forEach(p => {
+        const item = document.createElement('li');
+        item.className = 'list-group-item list-group-item-action';
+        item.textContent = p.Nombre;
+        item.addEventListener('click', () => {
+          window.location.href = `detalle.html?id=${p.id}`;
+        });
+        sugerencias.appendChild(item);
+      });
+    });
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('form')) sugerencias.innerHTML = '';
+    });
+
+    function filtrarProductos(e) {
+      e.preventDefault();
+      const texto = inputBusqueda.value.trim().toLowerCase();
+      sugerencias.innerHTML = '';
+      const contenedor = document.getElementById('productos-container');
+      contenedor.innerHTML = '';
+
+      const productosFiltrados = window.listaProductos.filter(p => {
+        const nombre = p.Nombre?.toLowerCase() || '';
+        const descripcion = p['descripcion corta']?.toLowerCase() || '';
+        const especificaciones = p['especificaciones']?.toLowerCase() || '';
+        return nombre.includes(texto) || descripcion.includes(texto) || especificaciones.includes(texto);
+      });
+
+      if (productosFiltrados.length === 0) {
+        contenedor.innerHTML = '<p class="text-danger">No se encontraron productos con esa búsqueda.</p>';
+        return;
+      }
+
+      productosFiltrados.forEach((producto, i) => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+          <div class="card h-100 shadow-sm mostrar">
+            <img src="img/${producto.imagen}" class="card-img-top" alt="${producto.Nombre}">
+            <div class="card-body">
+              <h5 class="card-title">${producto.Nombre}</h5>
+              <p class="card-text">${producto['descripcion corta']}</p>
+              <p class="card-text fw-semibold text-primary fs-5 mb-1">Lps ${producto.Precio}</p>
+              <a href="detalle.html?id=${producto.id}" class="btn btn-primary">Solicitar</a>
+            </div>
+          </div>
+        `;
+        contenedor.appendChild(card);
+      });
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
