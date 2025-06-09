@@ -94,20 +94,18 @@
           if (producto.disponible.toLowerCase() === 'sí') {
             const card = document.createElement('div');
             card.className = 'col-md-4 mb-4';
-            card.innerHTML = `
+            card.innerHTML = 
               <div class="card h-100 shadow-sm">
                 <img src="img/${producto.imagen}" class="card-img-top" alt="${producto.Nombre}">
                 <div class="card-body">
                   <h5 class="card-title">${producto.Nombre}</h5>
                   <p class="card-text">${producto['descripcion corta']}</p>
-                <p class="card-text fw-semibold text-primary fs-5 mb-1">Lps ${producto.Precio}</p>
-
-
+                  <p class="card-text"><strong>Precio:</strong> Lps ${producto.Precio}</p>
                  <a href="detalle.html?id=${producto.id}" class="btn btn-primary">Solicitar</a>
 
                 </div>
               </div>
-            `;
+            ;
             contenedor.appendChild(card);
 
             // Agregar animación después de un pequeño retraso
@@ -179,7 +177,7 @@
       item.className = 'list-group-item list-group-item-action';
       item.textContent = p.Nombre;
       item.addEventListener('click', () => {
-        window.location.href = `detalle.html?id=${p.id}`;
+        window.location.href = detalle.html?id=${p.id};
       });
       sugerencias.appendChild(item);
     });
@@ -211,7 +209,7 @@
     productosFiltrados.forEach((producto, i) => {
       const card = document.createElement('div');
       card.className = 'col-md-4 mb-4';
-      card.innerHTML = `
+      card.innerHTML = 
         <div class="card h-100 shadow-sm mostrar">
           <img src="img/${producto.imagen}" class="card-img-top" alt="${producto.Nombre}">
           <div class="card-body">
@@ -221,7 +219,7 @@
             <a href="detalle.html?id=${producto.id}" class="btn btn-primary">Solicitar</a>
           </div>
         </div>
-      `;
+      ;
       contenedor.appendChild(card);
     });
   }
