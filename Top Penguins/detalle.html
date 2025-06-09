@@ -119,7 +119,8 @@
             <h2>${producto.Nombre}</h2>
             <p class="text-primary fw-bold fs-4">Lps ${producto.Precio}</p>
             <p><strong>Descripción:</strong> ${producto['descripcion larga']}</p>
-            <p><strong>Especificaciones:</strong><br><ul>${producto['especificaciones'].split('\n').map(item => `<li>• ${item.trim()}</li>`).join('')}</ul>
+            <p><strong>Especificaciones:</strong><br><ul>${producto['especificaciones'].split('\n').map(item => `<li>${item.trim().replace(/^•\s*/, '')}</li>
+`).join('')}</ul>
 
 
             <a href="solicitud.html?id=${producto.id}" class="btn btn-success mt-3">Comprar este producto</a>
