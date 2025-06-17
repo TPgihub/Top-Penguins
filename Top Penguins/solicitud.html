@@ -126,8 +126,10 @@
 
     async function cargarTarifas() {
       try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbxjhZ6KjyurnXX-oxo5v-vMXT2b97rK0DKtmWr1OpO_szv4RbZaOsdTD7UrfZDPdmW3/exec');
-        tarifas = await resp.json();
+        const resp = await fetch('https://script.google.com/macros/s/AKfycbzFgzgASg_c4D1YSPceelGAqzslnLWjVKOuAXScM5z-w9xL2aZL-qnvA_W8JV5x753x/exec');
+tarifas = await resp.json();
+console.log("Tarifas cargadas:", tarifas); // ahora sí imprimirá los datos correctos
+
         llenarDepartamentos();
       } catch (e) {
         console.error("Error al cargar tarifas:", e);
@@ -136,6 +138,7 @@
 
     function llenarDepartamentos() {
       const departamentos = [...new Set(tarifas.map(t => t.Departamento))];
+      console.log("Departamentos únicos encontrados:", departamentos); // Aquí sí funciona
       const selectDepto = document.getElementById("departamento");
       selectDepto.innerHTML = '<option value="">Seleccione uno</option>';
       departamentos.forEach(dep => {
