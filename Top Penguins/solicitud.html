@@ -126,7 +126,8 @@
 
     async function cargarTarifas() {
       try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
+        const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec?function=doGetTarifa');
+
         tarifas = await resp.json();
         console.log("Tarifas cargadas:", tarifas);
         llenarDepartamentos();
