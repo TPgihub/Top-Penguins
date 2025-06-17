@@ -91,7 +91,7 @@
       const id = params.get('id');
 
       try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbw1qln8f0-Wj0NlJwPuU2n_7UQnjVe2iKmLeffahI0YDzk018kM7C4SuwcjVIqLD41o/exec');
+        const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
         const productos = await resp.json();
         const producto = productos.find(p => p.id == id);
 
@@ -126,7 +126,7 @@
 
     async function cargarTarifas() {
       try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbw1qln8f0-Wj0NlJwPuU2n_7UQnjVe2iKmLeffahI0YDzk018kM7C4SuwcjVIqLD41o/exec');
+        const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
         tarifas = await resp.json();
         console.log("Tarifas cargadas:", tarifas);
         llenarDepartamentos();
