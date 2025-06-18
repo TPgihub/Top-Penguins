@@ -21,10 +21,13 @@
             <th>Dirección</th>
             <th>Método de Contacto</th>
             <th>Comprobante URL</th>
+            <th>Detalle</th>
+            <th>Departamento</th>
+            <th>Municipio</th>
           </tr>
         </thead>
         <tbody id="registro-body">
-          <tr><td colspan="7">Cargando datos...</td></tr>
+          <tr><td colspan="10">Cargando datos...</td></tr>
         </tbody>
       </table>
     </div>
@@ -33,13 +36,17 @@
   <script>
     window.addEventListener("DOMContentLoaded", async () => {
       const params = new URLSearchParams(window.location.search);
+
       const datos = {
         producto: params.get("producto"),
         nombre: params.get("nombre"),
         correo: params.get("correo"),
         direccion: params.get("direccion"),
         metodo: params.get("metodo"),
-        comprobante: params.get("comprobante")
+        comprobante: params.get("comprobante"),
+        detalle: params.get("detalle"),
+        departamento: params.get("departamento"),
+        municipio: params.get("municipio")
       };
 
       const hoy = new Date().toLocaleString();
@@ -54,12 +61,15 @@
           <td>${datos.direccion}</td>
           <td>${datos.metodo}</td>
           <td><a href="${datos.comprobante}" target="_blank">Ver imagen</a></td>
+          <td>${datos.detalle}</td>
+          <td>${datos.departamento}</td>
+          <td>${datos.municipio}</td>
         </tr>`;
       document.getElementById("registro-body").innerHTML = fila;
 
-      // Enviar los datos a Google Sheets
+      // Enviar los datos a Google Sheets (doPost)
       try {
-        await fetch("https://script.google.com/macros/s/AKfycbwu6MYe_oApK4XUU-Z-6X_i56O2H12hwlRm4hAcbX6G_C5f2zjfAJuzhwarLMrj-iqX/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbyqQyO31vji7IfXXQqqG5-Cc_qGqGWCmbdA7xTBsyeOnrvQufNQs3AdxlxhMjsL1CAM/exec", {
           method: "POST",
           body: new URLSearchParams(datos)
         });
