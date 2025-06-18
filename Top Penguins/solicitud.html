@@ -238,20 +238,22 @@
           const total = Math.round(precioFinal + envioFinal);
 
           document.body.insertAdjacentHTML('beforeend', `
-            <table style="display:none;">
-              <tr><td id="fecha">${new Date().toLocaleString()}</td></tr>
-              <tr><td id="producto">${productoSeleccionado?.Nombre || 'Producto no identificado'}</td></tr>
-              <tr><td id="nombre">${form.nombre.value}</td></tr>
-              <tr><td id="correo">${form.correo.value}</td></tr>
-              <tr><td id="telefono">${form.telefono.value}</td></tr>
-              <tr><td id="direccion">${form.direccion.value}</td></tr>
-              <tr><td id="metodo">${form.metodo.value}</td></tr>
-              <tr><td id="comprobante">${imagenURL}</td></tr>
-              <tr><td id="detalle">Lps ${total.toFixed(2)}</td></tr>
-              <tr><td id="departamento">${depto}</td></tr>
-              <tr><td id="municipio">${mun}</td></tr>
-            </table>
-          `);
+  <table style="display:none;">
+    <tr><td id="fecha">${new Date().toLocaleString()}</td></tr>
+    <tr><td id="producto">${productoSeleccionado?.Nombre || 'Producto no identificado'}</td></tr>
+    <tr><td id="nombre">${form.nombre.value}</td></tr>
+    <tr><td id="correo">${form.correo.value}</td></tr>
+    <tr><td id="telefono">${form.telefono.value}</td></tr>
+    <tr><td id="direccion">${form.direccion.value}</td></tr>
+    <tr><td id="metodo">${form.metodo.value}</td></tr>
+    <tr><td id="comprobante">${imagenURL}</td></tr>
+    <tr><td id="detalle">Lps ${total.toFixed(2)}</td></tr>
+    <tr><td id="departamento">${depto}</td></tr>
+    <tr><td id="municipio">${mun}</td></tr>
+    <tr><td id="tipo_pago">${entrega}</td></tr>
+  </table>
+`);
+
 
          const params = new URLSearchParams({
   producto: productoSeleccionado?.Nombre || 'Producto no identificado',
@@ -264,7 +266,8 @@
   detalle: `Lps ${total.toFixed(2)}`,
   departamento: depto,
   municipio: mun,
-  fecha: new Date().toLocaleString()
+  fecha: new Date().toLocaleString(),
+  tipo_pago: entrega
 });
 
           sessionStorage.setItem('datosSolicitud', params.toString());
