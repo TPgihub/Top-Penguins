@@ -253,16 +253,19 @@
             </table>
           `);
 
-          const params = new URLSearchParams({
-            producto: productoSeleccionado?.Nombre || 'Producto no identificado',
-            nombre: form.nombre.value,
-            correo: form.correo.value,
-            telefono: form.telefono.value,
-            direccion: form.direccion.value,
-            metodo: form.metodo.value,
-            comprobante: imagenURL,
-            fecha: new Date().toLocaleString()
-          });
+         const params = new URLSearchParams({
+  producto: productoSeleccionado?.Nombre || 'Producto no identificado',
+  nombre: form.nombre.value,
+  correo: form.correo.value,
+  telefono: form.telefono.value,
+  direccion: form.direccion.value,
+  metodo: form.metodo.value,
+  comprobante: imagenURL,
+  detalle: `Lps ${total.toFixed(2)}`,
+  departamento: depto,
+  municipio: mun,
+  fecha: new Date().toLocaleString()
+});
 
           sessionStorage.setItem('datosSolicitud', params.toString());
           window.location.href = 'index.html?mensaje=1';
