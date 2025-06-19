@@ -42,6 +42,29 @@
       </div>
       <button id="calcularTotal" class="btn btn-primary">Calcular total</button>
       <div id="resultadoTotal" class="mt-3 fw-bold d-none"></div>
+
+      <!-- Agregado: info-envio y cuenta-bancaria -->
+      <div id="info-envio" class="mt-3 small text-muted d-none" style="font-size: 0.9em;">
+        <hr>
+        <p>📦 <strong>IMPORTANTE:</strong> Los envíos se realizan únicamente dentro de Honduras, según los departamentos y municipios disponibles.</p>
+        <p>📝 Asegúrese de ingresar correctamente sus datos personales y dirección para evitar inconvenientes en la entrega.</p>
+        <p>📲 Para dudas o asistencia, contáctenos al <strong><a href="https://wa.me/50494431447" target="_blank">+504 9443-1447 vía WhatsApp</a></strong>.</p>
+        <p>✅ Una vez completado el pago y enviada la solicitud, recibirá un correo de confirmación. Verificaremos su comprobante antes de proceder al envío.</p>
+        <p>🚚 Los pedidos dentro de San Pedro Sula no llevan guía, ya que se entregan el mismo día dentro del horario de <strong>8:00 a.m. a 5:00 p.m.</strong>.</p>
+      </div>
+
+      <div id="cuenta-bancaria" class="mt-4 p-3 bg-white rounded shadow-sm border d-none">
+        <h6>💳 Realiza el pago a la siguiente cuenta:</h6>
+        <div class="d-flex align-items-center">
+          <img src="img/bac-logo.png" alt="BAC" width="60" class="me-3">
+          <div>
+            <p class="mb-1"><strong>BAC Credomatic:</strong> <span id="numCuenta">754725821</span></p>
+            <p class="mb-1"><strong>Nombre:</strong> Humberto Jesús Serrano López</p>
+            <button class="btn btn-sm btn-outline-secondary" onclick="copiarCuenta()">Copiar número de cuenta</button>
+          </div>
+        </div>
+      </div>
+      <!-- Fin agregado -->
     </div>
 
     <h4 id="titulo-formulario" class="d-none">Formulario de solicitud</h4>
@@ -188,7 +211,20 @@
 
       document.getElementById('formulario-solicitud').classList.remove('d-none');
       document.getElementById('titulo-formulario').classList.remove('d-none');
+
+      // Mostrar info adicional
+      document.getElementById('info-envio').classList.remove('d-none');
+      document.getElementById('cuenta-bancaria').classList.remove('d-none');
     });
+
+    function copiarCuenta() {
+      const cuenta = document.getElementById("numCuenta").innerText;
+      navigator.clipboard.writeText(cuenta).then(() => {
+        alert("✅ Número de cuenta copiado");
+      }).catch(() => {
+        alert("❌ No se pudo copiar el número");
+      });
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       cargarProducto();
