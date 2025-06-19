@@ -41,17 +41,18 @@
       <button id="calcularTotal" class="btn btn-primary">Calcular total</button>
       <div id="resultadoTotal" class="mt-3 fw-bold"></div>
 
-      <!-- Bloques ocultos hasta calcular -->
+      <!-- Bloque de información adicional -->
       <div id="info-envio" class="mt-3 small text-muted d-none" style="font-size: 0.9em;">
         <hr>
         <p>📦 <strong>IMPORTANTE:</strong> Los envíos se realizan únicamente dentro de Honduras, según los departamentos y municipios disponibles.</p>
         <p>📝 Asegúrese de ingresar correctamente sus datos personales y dirección para evitar inconvenientes en la entrega.</p>
         <p>📲 Para dudas o asistencia, contáctenos al <strong><a href="https://wa.me/50494431447" target="_blank">+504 9443-1447 vía WhatsApp</a></strong>.</p>
         <p>✅ Una vez completado el pago y enviada la solicitud, recibirá un correo de confirmación. Verificaremos su comprobante antes de proceder al envío.</p>
-        <p>📨 Se le proporcionará una <strong>guía de seguimiento del paquete</strong> para rastrear el envío.</p>
         <p>🚚 Los pedidos dentro de San Pedro Sula no llevan guía, ya que se entregan el mismo día dentro del horario de <strong>8:00 a.m. a 5:00 p.m.</strong>.</p>
+        <p>📦 Se le proporcionará una guía de seguimiento del paquete cuando aplique.</p>
       </div>
 
+      <!-- Información de cuenta bancaria -->
       <div id="cuenta-bancaria" class="mt-4 p-3 bg-white rounded shadow-sm border d-none">
         <h6>💳 Realiza el pago a la siguiente cuenta:</h6>
         <div class="d-flex align-items-center">
@@ -106,16 +107,17 @@
   <script>
     function copiarCuenta() {
       const cuenta = document.getElementById("numCuenta").innerText;
-      navigator.clipboard.writeText(cuenta)
-        .then(() => alert("✅ Número de cuenta copiado"))
-        .catch(() => alert("❌ No se pudo copiar el número"));
+      navigator.clipboard.writeText(cuenta).then(() => {
+        alert("✅ Número de cuenta copiado");
+      }).catch(() => {
+        alert("❌ No se pudo copiar el número");
+      });
     }
 
     document.getElementById("calcularTotal").addEventListener("click", () => {
-      // Mostrar contenido oculto tras cálculo exitoso
-      document.getElementById("formulario-solicitud").classList.remove("d-none");
       document.getElementById("info-envio").classList.remove("d-none");
       document.getElementById("cuenta-bancaria").classList.remove("d-none");
+      document.getElementById("formulario-solicitud").classList.remove("d-none");
     });
   </script>
 
