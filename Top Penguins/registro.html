@@ -18,6 +18,7 @@
             <th>Producto</th>
             <th>Nombre</th>
             <th>Correo</th>
+            <th>Teléfono</th>
             <th>Dirección</th>
             <th>Método de Contacto</th>
             <th>Comprobante URL</th>
@@ -28,8 +29,7 @@
           </tr>
         </thead>
         <tbody id="registro-body">
-          <tr><td colspan="11">Cargando datos...</td></tr>
-
+          <tr><td colspan="12">Cargando datos...</td></tr>
         </tbody>
       </table>
     </div>
@@ -40,42 +40,42 @@
       const params = new URLSearchParams(window.location.search);
 
       const datos = {
-  producto: params.get("producto"),
-  nombre: params.get("nombre"),
-  correo: params.get("correo"),
-  direccion: params.get("direccion"),
-  metodo: params.get("metodo"),
-  comprobante: params.get("comprobante"),
-  detalle: params.get("detalle"),
-  departamento: params.get("departamento"),
-  municipio: params.get("municipio"),
-  tipo_pago: params.get("tipo_pago")
-};
-
+        producto: params.get("producto"),
+        nombre: params.get("nombre"),
+        correo: params.get("correo"),
+        telefono: params.get("telefono"),
+        direccion: params.get("direccion"),
+        metodo: params.get("metodo"),
+        comprobante: params.get("comprobante"),
+        detalle: params.get("detalle"),
+        departamento: params.get("departamento"),
+        municipio: params.get("municipio"),
+        tipo_pago: params.get("tipo_pago")
+      };
 
       const hoy = new Date().toLocaleString();
 
       // Mostrar los datos en la tabla
-     const fila = `
-  <tr>
-    <td>${hoy}</td>
-    <td>${datos.producto}</td>
-    <td>${datos.nombre}</td>
-    <td>${datos.correo}</td>
-    <td>${datos.direccion}</td>
-    <td>${datos.metodo}</td>
-    <td><a href="${datos.comprobante}" target="_blank">Ver imagen</a></td>
-    <td>${datos.detalle}</td>
-    <td>${datos.departamento}</td>
-    <td>${datos.municipio}</td>
-    <td>${datos.tipo_pago}</td>
-  </tr>`;
-
+      const fila = `
+        <tr>
+          <td>${hoy}</td>
+          <td>${datos.producto}</td>
+          <td>${datos.nombre}</td>
+          <td>${datos.correo}</td>
+          <td>${datos.telefono}</td>
+          <td>${datos.direccion}</td>
+          <td>${datos.metodo}</td>
+          <td><a href="${datos.comprobante}" target="_blank">Ver imagen</a></td>
+          <td>${datos.detalle}</td>
+          <td>${datos.departamento}</td>
+          <td>${datos.municipio}</td>
+          <td>${datos.tipo_pago}</td>
+        </tr>`;
       document.getElementById("registro-body").innerHTML = fila;
 
-      // Enviar los datos a Google Sheets (doPost)
+      // Enviar los datos a Google Sheets
       try {
-        await fetch("https://script.google.com/macros/s/AKfycbyqQyO31vji7IfXXQqqG5-Cc_qGqGWCmbdA7xTBsyeOnrvQufNQs3AdxlxhMjsL1CAM/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbwFem0wWsG3UCa0-l9N-XSh36YhOrYTep4fOAjLiltEkNQOX1WItl8oBIac6Z-2mfmp/exec", {
           method: "POST",
           body: new URLSearchParams(datos)
         });
