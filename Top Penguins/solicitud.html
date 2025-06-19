@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body class="bg-light">
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a href="index.html">
@@ -18,7 +17,6 @@
     </div>
   </nav>
 
-  <!-- Contenido -->
   <div class="container py-5">
     <div id="producto-info" class="mb-4"></div>
 
@@ -41,33 +39,10 @@
         <select id="municipio" class="form-select" required></select>
       </div>
       <button id="calcularTotal" class="btn btn-primary">Calcular total</button>
-      <div id="resultadoTotal" class="mt-3 fw-bold d-none"></div>
-
-      <!-- Agregado: info-envio y cuenta-bancaria -->
-      <div id="info-envio" class="mt-3 small text-muted d-none" style="font-size: 0.9em;">
-        <hr>
-        <p>📦 <strong>IMPORTANTE:</strong> Los envíos se realizan únicamente dentro de Honduras, según los departamentos y municipios disponibles.</p>
-        <p>📝 Asegúrese de ingresar correctamente sus datos personales y dirección para evitar inconvenientes en la entrega.</p>
-        <p>📲 Para dudas o asistencia, contáctenos al <strong><a href="https://wa.me/50494431447" target="_blank">+504 9443-1447 vía WhatsApp</a></strong>.</p>
-        <p>✅ Una vez completado el pago y enviada la solicitud, recibirá un correo de confirmación. Verificaremos su comprobante antes de proceder al envío.</p>
-        <p>🚚 Los pedidos dentro de San Pedro Sula no llevan guía, ya que se entregan el mismo día dentro del horario de <strong>8:00 a.m. a 5:00 p.m.</strong>.</p>
-      </div>
-
-      <div id="cuenta-bancaria" class="mt-4 p-3 bg-white rounded shadow-sm border d-none">
-        <h6>💳 Realiza el pago a la siguiente cuenta:</h6>
-        <div class="d-flex align-items-center">
-          <img src="img/bac-logo.png" alt="BAC" width="60" class="me-3">
-          <div>
-            <p class="mb-1"><strong>BAC Credomatic:</strong> <span id="numCuenta">754725821</span></p>
-            <p class="mb-1"><strong>Nombre:</strong> Humberto Jesús Serrano López</p>
-            <button class="btn btn-sm btn-outline-secondary" onclick="copiarCuenta()">Copiar número de cuenta</button>
-          </div>
-        </div>
-      </div>
-      <!-- Fin agregado -->
+      <div id="resultadoTotal" class="mt-3 fw-bold"></div>
     </div>
 
-    <h4 id="titulo-formulario" class="d-none">Formulario de solicitud</h4>
+    <h4>Formulario de solicitud</h4>
     <form id="formulario-solicitud" class="bg-white p-4 rounded shadow d-none" enctype="multipart/form-data">
       <div class="mb-3">
         <label>Nombre completo</label>
@@ -101,7 +76,7 @@
     </form>
 
     <div id="confirmacion" class="alert alert-success mt-4 d-none">
-      ✅ ¡Tu solicitud ha sido enviada correctamente! Recibirás una guía de seguimiento del paquete.
+      ✅ ¡Tu solicitud ha sido enviada correctamente!
     </div>
   </div>
 
@@ -112,15 +87,19 @@
     async function cargarProducto() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
+
       try {
         const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
         const productos = await resp.json();
         const producto = productos.find(p => p.id == id);
+
         if (!producto) {
           document.getElementById('producto-info').innerHTML = '<p class="text-danger">Producto no encontrado.</p>';
           return;
         }
+
         productoSeleccionado = producto;
+
         document.getElementById('producto-info').innerHTML = 
           <div class="card mb-4">
             <div class="row g-0">
@@ -166,7 +145,9 @@
     }
 
     function llenarMunicipios(departamento) {
-      const municipios = tarifas.filter(t => t.Departamento === departamento).map(t => t.Municipio);
+      const municipios = tarifas
+        .filter(t => t.Departamento === departamento)
+        .map(t => t.Municipio);
       const selectMun = document.getElementById("municipio");
       selectMun.innerHTML = '<option value="">Seleccione uno</option>';
       municipios.forEach(mun => {
@@ -203,28 +184,14 @@
 
       const total = Math.round(precioFinal + envioFinal);
 
-      document.getElementById("resultadoTotal").classList.remove("d-none");
       document.getElementById("resultadoTotal").innerHTML = 
         Producto: Lps ${precioFinal.toFixed(2)}<br>
         Envío: Lps ${envioFinal.toFixed(2)}<br>
-        <strong>Total a pagar: Lps ${total.toFixed(2)}</strong>;
+        <strong>Total a pagar: Lps ${total.toFixed(2)}</strong>
+      ;
 
       document.getElementById('formulario-solicitud').classList.remove('d-none');
-      document.getElementById('titulo-formulario').classList.remove('d-none');
-
-      // Mostrar info adicional
-      document.getElementById('info-envio').classList.remove('d-none');
-      document.getElementById('cuenta-bancaria').classList.remove('d-none');
     });
-
-    function copiarCuenta() {
-      const cuenta = document.getElementById("numCuenta").innerText;
-      navigator.clipboard.writeText(cuenta).then(() => {
-        alert("✅ Número de cuenta copiado");
-      }).catch(() => {
-        alert("❌ No se pudo copiar el número");
-      });
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
       cargarProducto();
@@ -232,9 +199,13 @@
 
       document.getElementById('formulario-solicitud').addEventListener('submit', async function (e) {
         e.preventDefault();
+
         const form = e.target;
         const file = form.comprobante.files[0];
-        if (!file) return alert('Sube una imagen del comprobante');
+        if (!file) {
+          alert('Sube una imagen del comprobante');
+          return;
+        }
 
         const formData = new FormData();
         formData.append('image', file);
@@ -248,20 +219,60 @@
           const imgbbData = await imgbbResp.json();
           const imagenURL = imgbbData.data.url;
 
-          const params = new URLSearchParams({
-            producto: productoSeleccionado?.Nombre || 'Producto no identificado',
-            nombre: form.nombre.value,
-            correo: form.correo.value,
-            telefono: form.telefono.value,
-            direccion: form.direccion.value,
-            metodo: form.metodo.value,
-            comprobante: imagenURL,
-            fecha: new Date().toLocaleString()
-          });
+          const depto = document.getElementById("departamento").value;
+          const mun = document.getElementById("municipio").value;
+          const entrega = document.getElementById("tipoEntrega").value;
+
+          const tarifa = tarifas.find(t => t.Departamento === depto && t.Municipio === mun);
+          const baseEnvio = parseFloat(tarifa.PrecioBaseLps);
+          const peso = parseFloat(productoSeleccionado['Peso en Lb']);
+          const precioProducto = parseFloat(productoSeleccionado.Precio);
+
+          let envioFinal = baseEnvio;
+          if (peso > 10 && peso <= 20) envioFinal *= 1.05;
+          else if (peso > 20 && peso <= 30) envioFinal *= 1.10;
+          else if (peso > 30) envioFinal *= 1.15;
+
+          let precioFinal = precioProducto;
+          if (entrega === "contraentrega") precioFinal *= 1.03;
+          const total = Math.round(precioFinal + envioFinal);
+
+          document.body.insertAdjacentHTML('beforeend', 
+  <table style="display:none;">
+    <tr><td id="fecha">${new Date().toLocaleString()}</td></tr>
+    <tr><td id="producto">${productoSeleccionado?.Nombre || 'Producto no identificado'}</td></tr>
+    <tr><td id="nombre">${form.nombre.value}</td></tr>
+    <tr><td id="correo">${form.correo.value}</td></tr>
+    <tr><td id="telefono">${form.telefono.value}</td></tr>
+    <tr><td id="direccion">${form.direccion.value}</td></tr>
+    <tr><td id="metodo">${form.metodo.value}</td></tr>
+    <tr><td id="comprobante">${imagenURL}</td></tr>
+    <tr><td id="detalle">Lps ${total.toFixed(2)}</td></tr>
+    <tr><td id="departamento">${depto}</td></tr>
+    <tr><td id="municipio">${mun}</td></tr>
+    <tr><td id="tipo_pago">${entrega}</td></tr>
+  </table>
+);
+
+
+         const params = new URLSearchParams({
+  producto: productoSeleccionado?.Nombre || 'Producto no identificado',
+  nombre: form.nombre.value,
+  correo: form.correo.value,
+  telefono: form.telefono.value,
+  direccion: form.direccion.value,
+  metodo: form.metodo.value,
+  comprobante: imagenURL,
+  detalle: Lps ${total.toFixed(2)},
+  departamento: depto,
+  municipio: mun,
+  fecha: new Date().toLocaleString(),
+  tipo_pago: entrega
+           
+});
 
           sessionStorage.setItem('datosSolicitud', params.toString());
-          document.getElementById("confirmacion").classList.remove("d-none");
-          setTimeout(() => window.location.href = 'index.html?mensaje=1', 2500);
+          window.location.href = 'index.html?mensaje=1';
 
         } catch (error) {
           alert('❌ Error al subir la imagen.');
