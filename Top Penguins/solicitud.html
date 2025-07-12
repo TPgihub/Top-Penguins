@@ -114,27 +114,31 @@
     let tarifas = [];
     let total = 0, depto = '', mun = '', entrega = '';
 
-    async function cargarProducto() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
-        const productos = await resp.json();
-        productoSeleccionado = productos.find(p => p.id == id);
-        if (!productoSeleccionado) return;
-        document.getElementById('producto-info').innerHTML = `
-          <div class="card mb-4"><div class="row g-0">
-            <div class="col-md-4"><img src="img/${productoSeleccionado.imagen}" class="img-fluid rounded-start" /></div>
-            <div class="col-md-8"><div class="card-body">
-              <h5>${productoSeleccionado.Nombre}</h5>
-              <p><strong>Precio:</strong> Lps ${productoSeleccionado.Precio}</p>
-              <p><strong>Descripción:</strong> ${productoSeleccionado['descripcion larga']}</p>
-              <p><strong>Especificaciones:</strong> ${productoSeleccionado['especificaciones']}</p>
-            </div></div></div></div>`;
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  async function cargarProducto() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  try {
+    const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
+    const productos = await resp.json();
+    const productoSeleccionado = productos.find(p => p.id == id);
+
+    if (!productoSeleccionado) return;
+
+    document.getElementById('producto-info').innerHTML = `
+      <div class="d-flex align-items-center gap-3 p-2 border rounded bg-white">
+        <img src="img/${productoSeleccionado.imagen}" alt="${productoSeleccionado.Nombre}" class="rounded" style="width: 80px; height: 80px; object-fit: cover;">
+        <div>
+          <h6 class="mb-1">${productoSeleccionado.Nombre}</h6>
+          <p class="text-primary fw-bold mb-0">Lps ${productoSeleccionado.Precio}</p>
+        </div>
+      </div>
+    `;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
     async function cargarTarifas() {
       try {
