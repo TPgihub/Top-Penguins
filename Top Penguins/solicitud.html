@@ -192,9 +192,10 @@ s
 
   } else if (valor === "contraentrega") {
     mensaje.innerHTML = `
-      <strong>🚚 Información importante:</strong><br>
-      Si selecciona <strong>pago contra entrega</strong>, solo debe pagar el <strong>valor del envío</strong> al momento de recibir el paquete.<br>
-      No es necesario realizar transferencia bancaria ni subir comprobante.`;
+        <strong>🚚 Información importante:</strong><br>
+      Usted debe realizar una <strong>transferencia bancaria solo por el valor del envío</strong>.<br>
+      El resto se paga al momento de recibir el producto.<br>
+      También debe <strong>subir comprobante</strong> de esta transferencia.`;
     mensaje.classList.remove("d-none", "alert-info");
     mensaje.classList.add("alert-warning");
   } else {
