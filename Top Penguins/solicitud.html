@@ -1,255 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Solicitud de producto</title>
-  <link rel="stylesheet" href="css/estilo.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcular Total</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-      <a href="index.html">
-        <img style="border-radius: 10%; margin-right: 10px;" src="img/Top-removebg-preview.png" width="190px" alt="Top Penguins Logo" />
-      </a>
-    </div>
-  </nav>
 
-  <!-- Contenido -->
   <div class="container py-5">
-    <div id="producto-info" class="mb-4"></div>
+    <h2 class="mb-4">Calculadora de Total</h2>
 
-    <div id="opciones-envio" class="bg-white p-4 rounded shadow mb-4">
-      <h5>Opciones de entrega</h5>
-      <div class="mb-3">
-        <label>Tipo de entrega</label>
-        <select id="tipoEntrega" class="form-select" required>
-          <option value="">Seleccione una opción</option>
-          <option value="anticipado">Pago anticipado</option>
-          <option value="contraentrega">Pago contra entrega (+3%)</option>
-        </select>
-      </div>
-      <div class="mb-3">
-         <label>Departamento</label>
-        <select id="departamento" class="form-select" required>
-          <option value="">Seleccione uno</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label>Municipio</label>
-        <select id="municipio" class="form-select" required>
-          <option value="">Seleccione uno</option>
-        </select>
-      </div>
-      <button id="calcularTotal" class="btn btn-primary">Calcular total</button>
-      <div id="resultadoTotal" class="mt-3 fw-bold"></div>
-
-      <!-- Mensajes informativos -->
-      <div id="info-envio" class="mt-3 small text-muted d-none" style="font-size: 0.9em;">
-        <hr>
-        <p>📦 <strong>IMPORTANTE:</strong> Los envíos se realizan únicamente dentro de Honduras, según los departamentos y municipios seleccionados.</p>
-        <p>📝 Asegúrese de ingresar correctamente sus datos personales y dirección para evitar inconvenientes en la entrega.</p>
-        <p>📲 Para dudas o asistencia, contáctenos al <strong><a href="https://wa.me/50494431447" target="_blank">+504 9443-1447 vía WhatsApp</a></strong>.</p>
-        <p>✅ Una vez completado el pago y enviada la solicitud, recibirá un correo de confirmación indicando que hemos recibido su solicitud. Posteriormente verificaremos el pago para proceder con el envío.</p>
-        <p>📦 Se le proporcionará una guía de seguimiento del paquete. <strong>Los pedidos dentro de San Pedro Sula no llevan guía</strong>, ya que se entregan el mismo día dentro del horario de <strong>8:00 a.m. a 5:00 p.m.</strong>.</p>
-      </div>
-
-      <!-- Cuenta bancaria -->
-      <div id="cuenta-bancaria" class="mt-4 p-3 bg-white rounded shadow-sm border d-none">
-        <h6>💳 Realiza el pago a cualquiera de las siguientes cuentas:</h6>
-        <div class="d-flex align-items-center">
-          <img src="img/bac-logo.png" alt="BAC" width="60" class="me-3">
-          <div>
-            <p class="mb-1"><strong>BAC Credomatic:</strong> <span id="numCuenta">754725821</span></p>
-            <p class="mb-1"><strong>Nombre:</strong> Humberto Jesús Serrano López</p>
-            <button class="btn btn-sm btn-outline-secondary" onclick="copiarCuenta()">Copiar número de cuenta</button>
-          </div>
-        </div>
-      </div>
+    <!-- Formulario -->
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio unitario (Lps)</label>
+      <input type="number" id="precio" class="form-control" placeholder="Ingrese el precio del producto">
     </div>
 
-    <h4>Formulario de solicitud</h4>
-    <form id="formulario-solicitud" class="bg-white p-4 rounded shadow d-none" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label>Nombre completo</label>
-        <input type="text" class="form-control" name="nombre" required />
-      </div>
-      <div class="mb-3">
-        <label>Correo electrónico</label>
-        <input type="email" class="form-control" name="correo" required />
-      </div>
-      <div class="mb-3">
-        <label>Teléfono</label>
-        <input type="tel" class="form-control" name="telefono" required />
-      </div>
-      <div class="mb-3">
-        <label>Dirección de entrega</label>
-        <textarea class="form-control" name="direccion" rows="3" required></textarea>
-      </div>
-      <div class="mb-3">
-        <label>Método de contacto preferido</label>
-        <select class="form-select" name="metodo" required>
-          <option value="">Selecciona uno</option>
-          <option value="whatsapp">WhatsApp</option>
-          <option value="correo">Correo electrónico</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label>Subir foto del comprobante de pago</label>
-        <input type="file" class="form-control" name="comprobante" accept="image/*" required />
-      </div>
-      <button type="submit" class="btn btn-success">Enviar solicitud</button>
-    </form>
-
-    <div id="confirmacion" class="alert alert-success mt-4 d-none">
-      ✅ ¡Tu solicitud ha sido enviada correctamente!
+    <div class="mb-3">
+      <label for="cantidad" class="form-label">Cantidad</label>
+      <input type="number" id="cantidad" class="form-control" placeholder="Ingrese la cantidad">
     </div>
+
+    <button id="btnCalcular" class="btn btn-primary">Calcular total</button>
+
+    <!-- Resultado -->
+    <div id="resultado" class="alert alert-info mt-4 d-none"></div>
   </div>
 
   <script>
-    let productoSeleccionado = null;
-    let tarifas = [];
-    let total = 0, depto = '', mun = '', entrega = '';
+    // Función para calcular el total
+    function calcularTotal() {
+      const precio = parseFloat(document.getElementById('precio').value) || 0;
+      const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+      const total = precio * cantidad;
 
-  async function cargarProducto() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+      const resultado = document.getElementById('resultado');
 
-  try {
-    const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec');
-    const productos = await resp.json();
-    const productoSeleccionado = productos.find(p => p.id == id);
-
-    if (!productoSeleccionado) return;
-
-    document.getElementById('producto-info').innerHTML = `
-      <div class="d-flex align-items-center gap-3 p-2 border rounded bg-white">
-        <img src="img/${productoSeleccionado.imagen}" alt="${productoSeleccionado.Nombre}" class="rounded" style="width: 80px; height: 80px; object-fit: cover;">
-        <div>
-          <h6 class="mb-1">${productoSeleccionado.Nombre}</h6>
-          <p class="card-text">${productoSeleccionado['descripcion corta']}</p>
-          <p class="text-primary fw-bold mb-0">Lps ${productoSeleccionado.Precio}</p>
-        </div>
-      </div>
-    `;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-    async function cargarTarifas() {
-      try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbysfFWtZuiBkT15W2RkRpOYIie6tILDu2dhjN6YGS1lKnWRrpM0G--5En8IjMG-Eleq/exec?function=doGetTarifa');
-        tarifas = await resp.json();
-        const departamentos = [...new Set(tarifas.map(t => t.Departamento))];
-        const selectDepto = document.getElementById("departamento");
-        departamentos.forEach(dep => {
-          const opt = document.createElement("option");
-          opt.value = dep;
-          opt.textContent = dep;
-          selectDepto.appendChild(opt);
-        });
-      } catch (e) {
-        console.error(e);
+      if (total > 0) {
+        resultado.textContent = `Total a pagar: Lps ${total.toFixed(2)}`;
+        resultado.classList.remove('d-none', 'alert-danger');
+        resultado.classList.add('alert-info');
+      } else {
+        resultado.textContent = 'Ingrese valores válidos';
+        resultado.classList.remove('d-none', 'alert-info');
+        resultado.classList.add('alert-danger');
       }
     }
 
-    document.getElementById('departamento').addEventListener('change', function () {
-      const municipios = tarifas.filter(t => t.Departamento === this.value).map(t => t.Municipio);
-      const selectMun = document.getElementById("municipio");
-      selectMun.innerHTML = '';
-      municipios.forEach(m => {
-        const opt = document.createElement("option");
-        opt.value = m;
-        opt.textContent = m;
-        selectMun.appendChild(opt);
-      });
-    });
-
-    document.getElementById("calcularTotal").addEventListener("click", () => {
-      entrega = document.getElementById("tipoEntrega").value;
-      depto = document.getElementById("departamento").value;
-      mun = document.getElementById("municipio").value;
-      if (!entrega || !depto || !mun) return alert("Complete todos los campos");
-      const tarifa = tarifas.find(t => t.Departamento === depto && t.Municipio === mun);
-      let envioFinal = parseFloat(tarifa.PrecioBaseLps);
-      const peso = parseFloat(productoSeleccionado['Peso en Lb']);
-      if (peso > 10 && peso <= 20) envioFinal *= 1.05;
-      else if (peso > 20 && peso <= 30) envioFinal *= 1.10;
-      else if (peso > 30) envioFinal *= 1.15;
-      let precioFinal = parseFloat(productoSeleccionado.Precio);
-      if (entrega === "contraentrega") precioFinal *= 1.03;
-      total = Math.round(precioFinal + envioFinal);
-      document.getElementById("resultadoTotal").innerHTML = `Producto: Lps ${precioFinal.toFixed(2)}<br>Envío: Lps ${envioFinal.toFixed(2)}<br><strong>Total a pagar: Lps ${total.toFixed(2)}</strong>`;
-      document.getElementById('formulario-solicitud').classList.remove('d-none');
-      document.getElementById('info-envio').classList.remove('d-none');
-      document.getElementById('cuenta-bancaria').classList.remove('d-none');
-    });
-
-    document.getElementById('formulario-solicitud').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const file = form.comprobante.files[0];
-      if (!file) return alert('Sube una imagen del comprobante');
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-        const imgbbResp = await fetch('https://api.imgbb.com/1/upload?key=45aa5a2108c661bc121f6185fbcd31ca', { method: 'POST', body: formData });
-        const imgbbData = await imgbbResp.json();
-        const imagenURL = imgbbData.data.url;
-        document.body.insertAdjacentHTML('beforeend', `
-          <table style="display:none;">
-            <tr><td id="fecha">${new Date().toLocaleString()}</td></tr>
-            <tr><td id="producto">${productoSeleccionado?.Nombre || 'Producto no identificado'}</td></tr>
-            <tr><td id="nombre">${form.nombre.value}</td></tr>
-            <tr><td id="correo">${form.correo.value}</td></tr>
-            <tr><td id="telefono">${form.telefono.value}</td></tr>
-            <tr><td id="direccion">${form.direccion.value}</td></tr>
-            <tr><td id="metodo">${form.metodo.value}</td></tr>
-            <tr><td id="comprobante">${imagenURL}</td></tr>
-            <tr><td id="detalle">Lps ${total.toFixed(2)}</td></tr>
-            <tr><td id="departamento">${depto}</td></tr>
-            <tr><td id="municipio">${mun}</td></tr>
-            <tr><td id="tipo_pago">${entrega}</td></tr>
-          </table>`);
-        const params = new URLSearchParams({
-          producto: productoSeleccionado?.Nombre || 'Producto no identificado',
-          nombre: form.nombre.value,
-          correo: form.correo.value,
-          telefono: form.telefono.value,
-          direccion: form.direccion.value,
-          metodo: form.metodo.value,
-          comprobante: imagenURL,
-          detalle: `Lps ${total.toFixed(2)}`,
-          departamento: depto,
-          municipio: mun,
-          fecha: new Date().toLocaleString(),
-          tipo_pago: entrega
-        });
-        sessionStorage.setItem('datosSolicitud', params.toString());
-        window.location.href = 'index.html?mensaje=1';
-      } catch (error) {
-        alert('❌ Error al subir la imagen.');
-        console.error(error);
-      }
-    });
-
-    function copiarCuenta() {
-      const cuenta = document.getElementById("numCuenta").innerText;
-      navigator.clipboard.writeText(cuenta).then(() => {
-        alert("Número de cuenta copiado al portapapeles.");
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      cargarProducto();
-      cargarTarifas();
-    });
+    // Asignar el evento al botón
+    document.getElementById('btnCalcular').addEventListener('click', calcularTotal);
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
