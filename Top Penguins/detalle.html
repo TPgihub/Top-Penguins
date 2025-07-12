@@ -114,18 +114,29 @@
         `;
 
         contenedor.innerHTML = `
-          <div class="col-md-6">${carruselHTML}</div>
-          <div class="col-md-6 fade-in">
-            <h2>${producto.Nombre}</h2>
-            <p class="text-primary fw-bold fs-4">Lps ${producto.Precio}</p>
-            <p><strong>Descripción:</strong> ${producto['descripcion larga']}</p>
-            <p><strong>Especificaciones:</strong><br><ul>${producto['especificaciones'].split('\n').map(item => `<li>${item.trim().replace(/^•\s*/, '')}</li>
-`).join('')}</ul>
+         <div class="col-md-6">${carruselHTML}</div>
+<div class="col-md-6 fade-in">
+  <h2>${producto.Nombre}</h2>
+  
+  <!-- Precio y Botón "Comprar" alineados horizontalmente -->
+  <div class="d-flex align-items-center gap-3 mt-3 mb-4">
+    <p class="text-primary fw-bold fs-4 mb-0">Lps ${producto.Precio}</p>
+    <a href="solicitud.html?id=${producto.id}" class="btn btn-success btn-lg">
+      <i class="fas fa-shopping-cart me-2"></i> Comprar
+    </a>
+  </div>
 
+  <p><strong>Descripción:</strong> ${producto['descripcion larga']}</p>
 
-            <a href="solicitud.html?id=${producto.id}" class="btn btn-success mt-3">Comprar este producto</a>
-            <a href="index.html" class="btn btn-secondary mt-3 ms-2">Volver</a>
-          </div>
+  <p><strong>Especificaciones:</strong><br>
+    <ul>
+      ${producto['especificaciones'].split('\n').map(item => `<li>${item.trim().replace(/^•\s*/, '')}</li>`).join('')}
+    </ul>
+  </p>
+
+  <a href="index.html" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
         `;
       } catch (error) {
         console.error('❌ Error cargando detalle:', error);
