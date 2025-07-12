@@ -25,12 +25,17 @@
     <div id="opciones-envio" class="bg-white p-4 rounded shadow mb-4">
       <h5>Opciones de entrega</h5>
       <div class="mb-3">
-        <label>Tipo de entrega</label>
-        <select id="tipoEntrega" class="form-select" required>
-          <option value="">Seleccione una opción</option>
-          <option value="anticipado">Pago anticipado</option>
-          <option value="contraentrega">Pago contra entrega (+3%)</option>
-        </select>
+        <div class="mb-3">
+  <label>Tipo de entrega</label>
+  <select id="tipoEntrega" class="form-select" required>
+    <option value="">Seleccione una opción</option>
+    <option value="anticipado">Pago anticipado</option>
+    <option value="contraentrega">Pago contra entrega (+3%)</option>
+  </select>
+  <!-- Aquí va el mensaje -->
+  <div id="mensaje-entrega" class="alert alert-info mt-3 d-none"></div>
+</div>
+s
       </div>
       <div class="mb-3">
          <label>Departamento</label>
@@ -172,6 +177,31 @@
         selectMun.appendChild(opt);
       });
     });
+    document.getElementById("tipoEntrega").addEventListener("change", function () {
+  const valor = this.value;
+  const mensaje = document.getElementById("mensaje-entrega");
+
+  if (valor === "anticipado") {
+    mensaje.innerHTML = `
+      <strong>🧾 Información importante:</strong><br>
+      Para completar su compra, debe realizar una <strong>transferencia bancaria</strong> por el total del producto más el envío.<br>
+      Las cuentas bancarias disponibles se mostrarán más abajo.<br>
+      Una vez hecho el pago, suba una imagen del comprobante y complete el formulario para validar su solicitud.`;
+    mensaje.classList.remove("d-none", "alert-warning");
+    mensaje.classList.add("alert-info");
+
+  } else if (valor === "contraentrega") {
+    mensaje.innerHTML = `
+      <strong>🚚 Información importante:</strong><br>
+      Si selecciona <strong>pago contra entrega</strong>, solo debe pagar el <strong>valor del envío</strong> al momento de recibir el paquete.<br>
+      No es necesario realizar transferencia bancaria ni subir comprobante.`;
+    mensaje.classList.remove("d-none", "alert-info");
+    mensaje.classList.add("alert-warning");
+  } else {
+    mensaje.classList.add("d-none");
+  }
+});
+
 
     document.getElementById("calcularTotal").addEventListener("click", () => {
       entrega = document.getElementById("tipoEntrega").value;
